@@ -39,6 +39,7 @@
                                     <th>No</th>
                                     <th>Ruangan</th>
                                     <th>Jadwal</th>
+                                    <th>Harga</th>
                                     <th>Status</th>
                                     <th>Publish</th>
                                     <th>Action</th>
@@ -51,6 +52,7 @@
                                         <td>{{ $pr->ruangan->nama_ruangan }}</td>
                                         <td>{{ $pr->jadwal->day }}, {{ $pr->jadwal->waktuMulai }} -
                                             {{ $pr->jadwal->waktuSelesai }}</td>
+                                        <td>Rp.{{ number_format($pr->harga, 2, ',', '.') }}</td>
                                         <td>
                                             @if ($pr->status == 'Boking')
                                                 <span class="badge badge-success">{{ $pr->status }}</span>
@@ -89,6 +91,7 @@
                                     <th>No</th>
                                     <th>Ruangan</th>
                                     <th>Jadwal</th>
+                                    <th>Harga</th>
                                     <th>Status</th>
                                     <th>Publish</th>
                                     <th>Action</th>
