@@ -45,7 +45,7 @@ class RuanganController extends Controller
         ]);
 
         return redirect()->route('ruangan.index')
-            ->with('Data added successfully!');
+            ->with('success', 'Data added successfully!');
     }
 
     /**
@@ -84,7 +84,7 @@ class RuanganController extends Controller
         ]);
 
         return redirect()->route('ruangan.index')
-            ->with('Data updated successfully!');
+            ->with('success', 'Data updated successfully!');
     }
 
     /**

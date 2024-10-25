@@ -14,7 +14,11 @@ class JadwalController extends Controller
     {
         $jadwals = Jadwal::all();
 
-        return view();
+        $title = 'Delete Jadwal!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
+        return view('pages.jadwal.index', compact('jadwals'));
     }
 
     /**
@@ -22,7 +26,7 @@ class JadwalController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.jadwal.create');
     }
 
     /**
@@ -30,7 +34,21 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'hari' => 'required',
+            'waktuMulai' => 'required',
+            'waktuSelesai' => 'required',
+            'status' => 'required|in:Tersedia,Tidak Tersedia'
+        ]);
+
+        Jadwal::create([
+            'day' => $request->hari,
+            'waktuMulai' => $request->waktuMulai,
+            'waktuSelesai' => $request->waktuSelesai,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('jadwal.index')->with('success', 'Data added successfully!');
     }
 
     /**
@@ -46,7 +64,9 @@ class JadwalController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $jadwal = Jadwal::findOrFail($id);
+
+        return view('pages.jadwal.edit', compact('jadwal'));
     }
 
     /**
@@ -54,7 +74,24 @@ class JadwalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $jadwal = Jadwal::findOrFail($id);
+
+        $request->validate([
+            'hari' => 'required',
+            'waktuMulai' => 'required',
+            'waktuSelesai' => 'required',
+            'status' => 'required|in:Tersedia,Tidak Tersedia'
+        ]);
+
+        $jadwal->update([
+            'day' => $request->hari,
+            'waktuMulai' => $request->waktuMulai,
+            'waktuSelesai' => $request->waktuSelesai,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('jadwal.index')
+            ->with('success', 'Data updated successfully!');
     }
 
     /**
@@ -62,6 +99,8 @@ class JadwalController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $jadwal = Jadwal::findOrFail($id);
+        $jadwal->delete();
+        return redirect()->back()->with('success', 'Data deleted successfully!');
     }
 }

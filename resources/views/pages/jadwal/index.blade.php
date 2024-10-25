@@ -37,42 +37,50 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Ruangan</th>
-                                    <th>Nama Ruangan</th>
+                                    <th>Hari</th>
+                                    <th>Jam</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($ruangans as $ruangan)
+                                @foreach ($jadwals as $jadwal)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $jadwal->day }}</td>
+                                        <td>{{ $jadwal->waktuMulai }} - {{ $jadwal->waktuSelesai }}</td>
                                         <td>
-                                            <span class="badge badge-secondary">{{ $ruangan->kd_ruangan }}</span>
+                                            @if ($jadwal->status == 'Tersedia')
+                                                <span class="badge badge-success">{{ $jadwal->status }}</span>
+                                            @elseif ($jadwal->status == 'Tidak Tersedia')
+                                                <span class="badge badge-primary">{{ $jadwal->status }}</span>
+                                            @endif
                                         </td>
-                                        <td>{{ $ruangan->nama_ruangan }}</td>
                                         <td>
                                             <div class="form-button-action">
-                                                <a href="{{ route('ruangan.edit', $ruangan->id) }}" data-bs-toggle="tooltip"
+                                                <a href="{{ route('jadwal.edit', $jadwal->id) }}" data-bs-toggle="tooltip"
                                                     title="Edit" class="btn btn-link btn-primary btn-lg"
                                                     data-original-title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
 
-                                                <a href="{{ route('ruangan.destroy', $ruangan->id) }}"
-                                                    data-bs-toggle="tooltip" title="Remove" class="btn btn-link btn-danger"
-                                                    data-original-title="Remove" data-confirm-delete="true">
+                                                <a href="{{ route('jadwal.destroy', $jadwal->id) }}"
+                                                    data-bs-toggle="tooltip" title="Remove"
+                                                    class="btn btn-link btn-danger btn-lg" data-original-title="Remove"
+                                                    data-confirm-delete="true">
                                                     <i class="fa fa-times"></i>
                                                 </a>
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach --}}
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Ruangan</th>
-                                    <th>Nama Ruangan</th>
+                                    <th>Hari</th>
+                                    <th>Jam</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

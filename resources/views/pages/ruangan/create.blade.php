@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Ruangan Create</h4>
+                        <h4 class="card-title">Form Input Ruangan</h4>
                         <a href="{{ route('ruangan.index') }}" class="btn btn-outline-secondary btn-round ms-auto">
                             <i class="fa fa-arrow-left"></i>
                             Back

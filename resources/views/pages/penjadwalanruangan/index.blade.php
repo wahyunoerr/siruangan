@@ -1,8 +1,8 @@
-@extends('layouts.dashboard.app', ['title' => 'Ruangan'])
+@extends('layouts.dashboard.app', ['title' => 'Penjadwalan Ruangan'])
 
 @section('content')
     <div class="page-header">
-        <h3 class="fw-bold mb-3">Data Ruangan</h3>
+        <h3 class="fw-bold mb-3">Data Penjadwalan Ruangan</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href="{{ route('dashboard') }}">
@@ -13,7 +13,7 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('ruangan.index') }}">Ruangan</a>
+                <a href="{{ route('penjadwalan.index') }}">Penjadwalan Ruangan</a>
             </li>
         </ul>
     </div>
@@ -23,9 +23,9 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Data Ruangan</h4>
+                        <h4 class="card-title">Data Penjadwalan Ruangan</h4>
 
-                        <a href="{{ route('ruangan.create') }}" class="btn btn-primary btn-round ms-auto">
+                        <a href="{{ route('penjadwalan.create') }}" class="btn btn-primary btn-round ms-auto">
                             <i class="fa fa-plus"></i>
                             Add Row
                         </a>
@@ -36,29 +36,44 @@
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th width="10%">No</th>
-                                    <th>Kode Ruangan</th>
-                                    <th>Nama Ruangan</th>
-                                    <th width="10%">Action</th>
+                                    <th>No</th>
+                                    <th>Ruangan</th>
+                                    <th>Jadwal</th>
+                                    <th>Status</th>
+                                    <th>Publish</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($ruangans as $ruangan)
+                                @foreach ($penjadwalanR as $pr)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $pr->ruangan->nama_ruangan }}</td>
+                                        <td>{{ $pr->jadwal->day }}, {{ $pr->jadwal->waktuMulai }} -
+                                            {{ $pr->jadwal->waktuSelesai }}</td>
                                         <td>
-                                            <span class="badge badge-secondary">{{ $ruangan->kd_ruangan }}</span>
+                                            @if ($pr->status == 'Boking')
+                                                <span class="badge badge-success">{{ $pr->status }}</span>
+                                            @elseif ($pr->status == 'Belum Diboking')
+                                                <span class="badge badge-danger">{{ $pr->status }}</span>
+                                            @endif
                                         </td>
-                                        <td>{{ $ruangan->nama_ruangan }}</td>
+                                        <td>
+                                            @if ($pr->publish == 'published')
+                                                <span class="badge badge-success">{{ $pr->publish }}</span>
+                                            @elseif ($pr->publish == 'dispublish')
+                                                <span class="badge badge-warning">{{ $pr->publish }}</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <div class="form-button-action">
-                                                <a href="{{ route('ruangan.edit', $ruangan->id) }}" data-bs-toggle="tooltip"
+                                                <a href="{{ route('penjadwalan.edit', $pr->id) }}" data-bs-toggle="tooltip"
                                                     title="Edit" class="btn btn-link btn-primary btn-lg"
                                                     data-original-title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
 
-                                                <a href="{{ route('ruangan.destroy', $ruangan->id) }}"
+                                                <a href="{{ route('penjadwalan.destroy', $pr->id) }}"
                                                     data-bs-toggle="tooltip" title="Remove"
                                                     class="btn btn-link btn-danger btn-lg" data-original-title="Remove"
                                                     data-confirm-delete="true">
@@ -72,8 +87,10 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Ruangan</th>
-                                    <th>Nama Ruangan</th>
+                                    <th>Ruangan</th>
+                                    <th>Jadwal</th>
+                                    <th>Status</th>
+                                    <th>Publish</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
+            $table->string('day', 100);
+            $table->time('waktuMulai');
+            $table->time('waktuSelesai');
+            $table->enum('status', ['Tersedia', 'Tidak Tersedia']);
             $table->timestamps();
         });
     }

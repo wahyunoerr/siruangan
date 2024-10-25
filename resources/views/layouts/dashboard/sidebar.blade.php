@@ -70,6 +70,32 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                    <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Penjadwalan Data</h4>
+            </li>
+            <li class="nav-item {{ Request::is('penjadwalan/*') ? 'active' : '' }}">
+                <a href="{{ route('penjadwalan.index') }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Penjadwalan Ruangan</p>
+                </a>
+            </li>
+
+            <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                    <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Transaksi Data</h4>
+            </li>
+            <li class="nav-item">
+                <a href="../widgets.html">
+                    <i class="fas fa-exchange-alt"></i>
+                    <p>Transaksi</p>
+                </a>
+            </li>
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                     <i class="fas fa-birthday-cake"></i>
@@ -82,7 +108,7 @@
                             <a href="#">
                                 <span class="sub-item">Data Event</span>
                             </a>
-                        </li>>
+                        </li>
                     </ul>
                 </div>
             </li>

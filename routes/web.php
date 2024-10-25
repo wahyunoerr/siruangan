@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\UserManagementController;
@@ -56,6 +57,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', 'edit')->name('jadwal.edit');
         Route::put('/update/{id}', 'update')->name('jadwal.update');
         Route::delete('/destroy/{id}', 'destroy')->name('jadwal.destroy');
+    });
+    Route::controller(PenjadwalanRuanganController::class)->prefix('penjadwalan')->group(function () {
+        Route::get('/index', 'index')->name('penjadwalan.index');
+        Route::get('/create', 'create')->name('penjadwalan.create');
+        Route::post('/store', 'store')->name('penjadwalan.store');
+        Route::get('/edit/{id}', 'edit')->name('penjadwalan.edit');
+        Route::put('/update/{id}', 'update')->name('penjadwalan.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('penjadwalan.destroy');
     });
 });
 
