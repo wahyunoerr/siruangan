@@ -77,6 +77,23 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <label for="thumbnail" class="form-label">Nama Ruangan</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <input type="file" name="thumbnail" id="thumbnail" value="{{ old('thumbnail') }}"
+                                        class="form-control @error('thumbnail') is-invalid @enderror"
+                                        placeholder="Nama Ruangan">
+
+                                    @error('thumbnail')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between align-items-center">

@@ -39,6 +39,7 @@
                                     <th width="10%">No</th>
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
+                                    <th>Foto Ruangan</th>
                                     <th width="10%">Action</th>
                                 </tr>
                             </thead>
@@ -50,6 +51,8 @@
                                             <span class="badge badge-secondary">{{ $ruangan->kd_ruangan }}</span>
                                         </td>
                                         <td>{{ $ruangan->nama_ruangan }}</td>
+                                        <td><img src="{{ Storage::disk('public')->url($ruangan->thumbnail) }}"
+                                                alt="" width="30%"></td>
                                         <td>
                                             <div class="form-button-action">
                                                 <a href="{{ route('ruangan.edit', $ruangan->id) }}" data-bs-toggle="tooltip"
@@ -74,6 +77,7 @@
                                     <th>No</th>
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
+                                    <th>Foto Ruangan</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>
