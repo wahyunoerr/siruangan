@@ -37,12 +37,29 @@ class RuanganController extends Controller
         $request->validate([
             'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
+            'thumbnail' => 'required|mimes:png,jpg,jpeg',
+            'multipleImage.*' => 'required|mimes:png,jpg,jpeg'
         ]);
 
-        Ruangan::create([
+        $ruangan =  Ruangan::create([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
+            'thumbnail' => $request->thumbnail
         ]);
+
+        if ($request->hasFile('multipleImage')) {
+            foreach ($request->file('multipleImage') as $file) {
+                if ($file->isValid()) {
+                    $imageName = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('upload/image/', $imageName, 'public');
+
+                    $ruangan->images()->create([
+                        'name' => $imageName,
+                    ]);
+                }
+            }
+        }
+
 
         return redirect()->route('ruangan.index')
             ->with('success', 'Data added successfully!');
