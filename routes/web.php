@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
@@ -65,6 +66,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', 'edit')->name('penjadwalan.edit');
         Route::put('/update/{id}', 'update')->name('penjadwalan.update');
         Route::delete('/destroy/{id}', 'destroy')->name('penjadwalan.destroy');
+    });
+
+    Route::controller(EventController::class)->prefix('event')->group(function () {
+        Route::get('/index', 'index')->name('acara.index');
+        Route::get('/create', 'create')->name('acara.create');
+        Route::get('/edit/{id}', 'edit')->name('acara.edit');
+        Route::post('/store', 'store')->name('acara.store');
+        Route::put('/update/{id}', 'update')->name('acara.update');
+        Route::delete('/delete/{id}', 'destroy')->name('acara.delete');
     });
 });
 

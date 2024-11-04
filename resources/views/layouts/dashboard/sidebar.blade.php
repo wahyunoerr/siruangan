@@ -37,16 +37,16 @@
                 </span>
                 <h4 class="text-section">Master Data</h4>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {{ Request::is('event/*') ? 'active submenu' : '' }}">
                 <a data-bs-toggle="collapse" href="#tables">
                     <i class="fas fa-birthday-cake"></i>
                     <p>Event</p>
                     <span class="caret"></span>
                 </a>
-                <div class="collapse" id="tables">
+                <div class="collapse {{ Request::is('event/*') ? 'show' : '' }}" id="tables">
                     <ul class="nav nav-collapse">
-                        <li>
-                            <a href="#">
+                        <li class="{{ Request::is('ruangan/*') ? 'active' : '' }}">
+                            <a href="{{ route('acara.index') }}">
                                 <span class="sub-item">Data Event</span>
                             </a>
                         </li>

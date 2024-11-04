@@ -17,6 +17,7 @@ class PenjadwalanRuangan extends Model
     protected $fillable = [
         'ruangan_id',
         'jadwal_id',
+        'event_id',
         'fasilitas',
         'harga',
         'status',
@@ -41,5 +42,15 @@ class PenjadwalanRuangan extends Model
     public function ruangan(): BelongsTo
     {
         return $this->belongsTo(Ruangan::class, 'ruangan_id', 'id');
+    }
+
+    /**
+     * Get the event that owns the PenjadwalanRuangan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 }

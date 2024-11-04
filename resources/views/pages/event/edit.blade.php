@@ -1,8 +1,8 @@
-@extends('layouts.dashboard.app', ['title' => 'Edit Ruangan'])
+@extends('layouts.dashboard.app', ['title' => 'Create Event'])
 
 @section('content')
     <div class="page-header">
-        <h3 class="fw-bold mb-3">Ruangan Edit</h3>
+        <h3 class="fw-bold mb-3">Acara Create</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href="{{ route('dashboard') }}">
@@ -13,13 +13,13 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('ruangan.index') }}">Ruangan</a>
+                <a href="{{ route('acara.index') }}">Acara</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('ruangan.edit', $ruangan->id) }}">Edit</a>
+                <a href="{{ route('acara.create') }}">Create</a>
             </li>
         </ul>
     </div>
@@ -29,50 +29,30 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Ruangan Edit</h4>
-
-                        <a href="{{ route('ruangan.index') }}" class="btn btn-outline-secondary btn-round ms-auto">
+                        <h4 class="card-title">Form Input Acara</h4>
+                        <a href="{{ route('acara.index') }}" class="btn btn-outline-secondary btn-round ms-auto">
                             <i class="fa fa-arrow-left"></i>
                             Back
                         </a>
                     </div>
                 </div>
-                <form action="{{ route('ruangan.update', $ruangan->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('acara.update', $event->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+
                     <div class="card-body">
                         <div class="row align-items-center g-4">
                             <div class="col-md-6">
-                                <label for="kd_ruangan" class="form-label">Kode Ruangan</label>
-                                <div class="input-icon">
-                                    <span class="input-icon-addon">
-                                        <i class="fa fa-barcode"></i>
-                                    </span>
-                                    <input type="text" name="kd_ruangan" id="kd_ruangan"
-                                        value="{{ old('kd_ruangan', $ruangan->kd_ruangan) }}"
-                                        class="form-control @error('kd_ruangan') is-invalid @enderror"
-                                        placeholder="Kode Ruangan">
-
-                                    @error('kd_ruangan')
-                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="nama_ruangan" class="form-label">Nama Ruangan</label>
+                                <label for="name" class="form-label">Nama Acara</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
                                         <i class="fa fa-building"></i>
                                     </span>
-                                    <input type="text" name="nama_ruangan" id="nama_ruangan"
-                                        value="{{ old('nama_ruangan', $ruangan->nama_ruangan) }}"
-                                        class="form-control @error('nama_ruangan') is-invalid @enderror"
-                                        placeholder="Nama Ruangan">
+                                    <input type="text" name="name" id="name"
+                                        value="{{ old('name', $event->name) }}"
+                                        class="form-control @error('name') is-invalid @enderror" placeholder="Nama Acara"
+                                        autofocus>
 
-                                    @error('nama_ruangan')
+                                    @error('name')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
@@ -80,24 +60,23 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <label for="thumbnail" class="form-label">Foto Ruangan</label>
+                            <div class="col-md-6">
+                                <label for="harga" class="form-label">Harga</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
-                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <i class="fas fa-dollar-sign"></i>
                                     </span>
-                                    <input type="file" name="thumbnail" id="thumbnail" value="{{ old('thumbnail') }}"
-                                        class="form-control @error('thumbnail') is-invalid @enderror"
-                                        placeholder="Foto Ruangan">
+                                    <input type="number" name="harga" id="harga"
+                                        value="{{ old('harga', $event->harga) }}"
+                                        class="form-control @error('harga') is-invalid @enderror" placeholder="Harga">
 
-                                    @error('thumbnail')
+                                    @error('harga')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
                                     @enderror
                                 </div>
                             </div>
-
 
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between align-items-center">

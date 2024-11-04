@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RuanganController extends Controller
 {
@@ -81,11 +82,16 @@ class RuanganController extends Controller
         $request->validate([
             'kd_ruangan' => 'sometimes|unique:ruangans,kd_ruangan,' . $id . '|min:5|max:25',
             'nama_ruangan' => 'sometimes|string|min:1',
+            'thumbnail' => 'required|mimes:png,jpg,jpeg',
         ]);
+
+        $file = $request->file('thumbnail');
+        $imageName = time() . '_' . $file->getClientOriginalName();
 
         $ruangan->update([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
+            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public')
         ]);
 
         return redirect()->route('ruangan.index')
@@ -99,9 +105,10 @@ class RuanganController extends Controller
     {
         $ruangan = Ruangan::findOrFail($id);
 
+        Storage::disk('public')->delete('upload/image', $ruangan->thumbnail);
+
         $ruangan->delete();
 
-        return redirect()->back()
-            ->with('success', 'Data deleted successfully!');
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
     }
 }
