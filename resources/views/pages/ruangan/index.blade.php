@@ -51,8 +51,13 @@
                                             <span class="badge badge-secondary">{{ $ruangan->kd_ruangan }}</span>
                                         </td>
                                         <td>{{ $ruangan->nama_ruangan }}</td>
-                                        <td><img src="{{ Storage::disk('public')->url($ruangan->thumbnail) }}"
-                                                alt="" width="30%"></td>
+                                        <td>
+                                            <a href="{{ Storage::disk('public')->url($ruangan->thumbnail) }}?image=250"
+                                                data-toggle="lightbox" data-caption="{{ $ruangan->nama_ruangan }}">
+                                                <img src="{{ Storage::disk('public')->url($ruangan->thumbnail) }}"
+                                                    class="img-fluid" width="250">
+                                            </a>
+                                        </td>
                                         <td>
                                             <div class="form-button-action">
                                                 <a href="{{ route('ruangan.edit', $ruangan->id) }}" data-bs-toggle="tooltip"
@@ -88,3 +93,6 @@
         </div>
     </div>
 @endsection
+@push('cdn-ligtbox')
+    <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
+@endpush

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('ruangan_id');
             $table->unsignedBigInteger('jadwal_id');
+            $table->unsignedBigInteger('event_id');
             $table->string('fasilitas', 100);
             $table->string('harga', 100);
             $table->enum('status', ['Boking', 'Belum Diboking']);
@@ -23,6 +24,7 @@ return new class extends Migration
 
             $table->foreign('ruangan_id')->references('id')->on('ruangans')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('jadwal_id')->references('id')->on('jadwals')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('event_id')->references('id')->on('event')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

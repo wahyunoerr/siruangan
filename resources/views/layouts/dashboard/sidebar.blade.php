@@ -37,7 +37,22 @@
                 </span>
                 <h4 class="text-section">Master Data</h4>
             </li>
-
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#tables">
+                    <i class="fas fa-birthday-cake"></i>
+                    <p>Event</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="tables">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="#">
+                                <span class="sub-item">Data Event</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item {{ Request::is('ruangan/*') ? 'active submenu' : '' }}">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
                     <i class="fas fa-building"></i>
@@ -95,22 +110,6 @@
                     <i class="fas fa-exchange-alt"></i>
                     <p>Transaksi</p>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#tables">
-                    <i class="fas fa-birthday-cake"></i>
-                    <p>Event</p>
-                    <span class="caret"></span>
-                </a>
-                <div class="collapse" id="tables">
-                    <ul class="nav nav-collapse">
-                        <li>
-                            <a href="#">
-                                <span class="sub-item">Data Event</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </li>
         </ul>
     </div>
