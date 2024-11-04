@@ -98,15 +98,24 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="harga" class="form-label">Harga
-                                </label>
+                                <label for="acara" class="form-label">Acara</label>
                                 <div class="input-icon">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp.</span>
-                                        <input type="number" name="harga" class="form-control"
-                                            aria-label="Amount (to the nearest dollar)">
-                                        <span class="input-group-text">,-</span>
-                                    </div>
+                                    <span class="input-icon-addon">
+                                        <i class="fas fa-building"></i>
+                                    </span>
+                                    <select name="event_id" id="acara"
+                                        class="form-control @error('event_id') is-invalid @enderror">
+                                        <option value="" selected disabled>--Pilih--</option>
+                                        @foreach ($event as $r)
+                                            <option value="{{ $r->id }}">{{ $r->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('event_id')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
                                 </div>
                             </div>
 

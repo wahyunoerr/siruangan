@@ -19,7 +19,6 @@ class PenjadwalanRuangan extends Model
         'jadwal_id',
         'event_id',
         'fasilitas',
-        'harga',
         'status',
         'publish'
     ];

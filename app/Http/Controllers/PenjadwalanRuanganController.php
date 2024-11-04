@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Jadwal;
 use App\Models\PenjadwalanRuangan;
 use App\Models\Ruangan;
@@ -14,7 +15,7 @@ class PenjadwalanRuanganController extends Controller
      */
     public function index()
     {
-        $penjadwalanR = PenjadwalanRuangan::with('jadwal', 'ruangan')->latest()->get();
+        $penjadwalanR = PenjadwalanRuangan::with('jadwal', 'ruangan', 'event')->latest()->get();
 
         $title = 'Delete Penjadwalan!';
         $text = "Are you sure you want to delete?";
@@ -30,8 +31,9 @@ class PenjadwalanRuanganController extends Controller
     {
         $jadwal = Jadwal::all();
         $ruangan = Ruangan::all();
+        $event = Event::all();
 
-        return view('pages.penjadwalanruangan.create', compact('jadwal', 'ruangan'));
+        return view('pages.penjadwalanruangan.create', compact('jadwal', 'ruangan', 'event'));
     }
 
     /**
@@ -42,8 +44,8 @@ class PenjadwalanRuanganController extends Controller
         $request->validate([
             'ruangan_id' => 'required|exists:ruangans,id',
             'jadwal_id' => 'required|exists:jadwals,id',
+            'event_id' => 'required|exists:event,id',
             'fasilitas' => 'required',
-            'harga' => 'required',
             'status' => 'required|in:Boking,Belum Diboking',
             'publish' => 'required|in:published,dispublish',
         ]);
@@ -51,8 +53,8 @@ class PenjadwalanRuanganController extends Controller
         PenjadwalanRuangan::create([
             'ruangan_id' => $request->ruangan_id,
             'jadwal_id' => $request->jadwal_id,
+            'event_id' => $request->event_id,
             'fasilitas' => $request->fasilitas,
-            'harga' => $request->harga,
             'status' => $request->status,
             'publish' => $request->publish
         ]);

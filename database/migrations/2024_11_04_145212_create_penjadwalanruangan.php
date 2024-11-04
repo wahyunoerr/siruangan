@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('jadwal_id');
             $table->unsignedBigInteger('event_id');
             $table->string('fasilitas', 100);
-            $table->string('harga', 100);
             $table->enum('status', ['Boking', 'Belum Diboking']);
             $table->enum('publish', ['published', 'dispublish']);
             $table->timestamps();
