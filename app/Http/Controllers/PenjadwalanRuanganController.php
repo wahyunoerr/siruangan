@@ -75,7 +75,15 @@ class PenjadwalanRuanganController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $jadwal = Jadwal::all();
+        $ruangan = Ruangan::all();
+        $event = Event::all();
+
+
+        $penjadwalan = PenjadwalanRuangan::findorfail($id);
+
+        return view('pages.penjadwalanruangan.edit', compact('penjadwalan', 'ruangan', 'jadwal', 'event'));
     }
 
     /**
@@ -83,7 +91,27 @@ class PenjadwalanRuanganController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'ruangan_id' => 'required|exists:ruangans,id',
+            'jadwal_id' => 'required|exists:jadwals,id',
+            'event_id' => 'required|exists:event,id',
+            'fasilitas' => 'required',
+            'status' => 'required|in:Boking,Belum Diboking',
+            'publish' => 'required|in:published,dispublish',
+        ]);
+
+        $penjadwalan = PenjadwalanRuangan::findorfail($id);
+
+        $penjadwalan->update([
+            'ruangan_id' => $request->ruangan_id,
+            'jadwal_id' => $request->jadwal_id,
+            'event_id' => $request->event_id,
+            'fasilitas' => $request->fasilitas,
+            'status' => $request->status,
+            'publish' => $request->publish
+        ]);
+
+        return redirect()->route('penjadwalan.index')->with('success', 'Data berhasil diubah');
     }
 
     /**
@@ -91,6 +119,10 @@ class PenjadwalanRuanganController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $penjadwalan = PenjadwalanRuangan::findorfail($id);
+
+        $penjadwalan->delete();
+
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
@@ -19,8 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(LandingController::class)->group(function () {
+    Route::get('/', 'index')->name('landing');
 });
 
 Route::get('/dashboard', function () {
