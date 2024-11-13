@@ -40,6 +40,7 @@
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
+                                    <th>Status Ruangan</th>
                                     <th width="10%">Action</th>
                                 </tr>
                             </thead>
@@ -57,6 +58,15 @@
                                                 <img src="{{ Storage::disk('public')->url($ruangan->thumbnail) }}"
                                                     class="img-fluid" width="250">
                                             </a>
+                                        </td>
+                                        <td>
+                                            @if ($ruangan->status == 'Sudah Dibooking')
+                                                <span class="badge badge-success">Sudah Dibooking</span>
+                                            @elseif ($ruangan->status == 'Belum Dibooking')
+                                                <span class="badge badge-warning">Belum Dibooking</span>
+                                            @else
+                                                <span class="badge badge-danger">Data booking tidak ditemukan</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="form-button-action">
@@ -83,6 +93,7 @@
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
+                                    <th>Status Ruangan</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

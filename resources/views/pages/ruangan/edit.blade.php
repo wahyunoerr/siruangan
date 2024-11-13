@@ -42,7 +42,7 @@
                     @method('PUT')
                     <div class="card-body">
                         <div class="row align-items-center g-4">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="kd_ruangan" class="form-label">Kode Ruangan</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <label for="nama_ruangan" class="form-label">Nama Ruangan</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
@@ -80,15 +80,45 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3">
+                                <label for="status" class="form-label">Status Ruangan</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="far fa-bell"></i>
+                                    </span>
+                                    <select name="status" id="status"
+                                        class="form-control @error('status') is-invalid @enderror">
+                                        <option disabled selected>-- Pilih --</option>
+                                        <option value="Sudah Dibooking"
+                                            {{ old('status', $ruangan->status) == 'Sudah Dibooking' ? 'selected' : '' }}>
+                                            Sudah Dibooking
+                                        </option>
+                                        <option value="Belum Dibooking"
+                                            {{ old('status', $ruangan->status) == 'Belum Dibooking' ? 'selected' : '' }}>
+                                            Belum Dibooking
+                                        </option>
+                                    </select>
+
+                                    @error('status')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <label for="thumbnail" class="form-label">Foto Ruangan</label>
                                 <div class="input-icon">
-                                    <span class="input-icon-addon">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                    </span>
-                                    <input type="file" name="thumbnail" id="thumbnail" value="{{ old('thumbnail') }}"
+                                    <input type="file" name="thumbnail" id="thumbnail"
+                                        value="{{ old($ruangan->thumbnail ?? '') }}"
                                         class="form-control @error('thumbnail') is-invalid @enderror"
                                         placeholder="Foto Ruangan">
+
+                                    @if (!empty($ruangan->thumbnail))
+                                        <div class="form-text mt-2">
+                                            File saat ini: {{ $ruangan->thumbnail }}
+                                        </div>
+                                    @endif
 
                                     @error('thumbnail')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">

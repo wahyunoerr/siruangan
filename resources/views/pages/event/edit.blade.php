@@ -38,7 +38,7 @@
                 </div>
                 <form action="{{ route('acara.update', $event->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
+                    @method('PUT')
                     <div class="card-body">
                         <div class="row align-items-center g-4">
                             <div class="col-md-6">

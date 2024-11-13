@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LandingController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(LandingController::class)->group(function () {
     Route::get('/', 'index')->name('landing');
+    Route::get('/q', 'search')->name('ruangan.search');
 });
 
 Route::get('/dashboard', function () {
@@ -32,7 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+Route::middleware(['auth', 'role:Administrator'])->group(function () {
     Route::controller(UserManagementController::class)->prefix('user-management')->group(function () {
         Route::get('/index', 'index')->name('user.index');
         Route::get('/create', 'create')->name('user.create');
@@ -76,6 +80,23 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', 'store')->name('acara.store');
         Route::put('/update/{id}', 'update')->name('acara.update');
         Route::delete('/delete/{id}', 'destroy')->name('acara.delete');
+    });
+
+    Route::controller(BookingController::class)->group(function () {
+        Route::prefix('dataBooking')->group(function () {
+            Route::get('/', 'dataBooking')->name('admin.dataBooking');
+            Route::post('/orders', 'store');
+        });
+    });
+});
+
+
+Route::middleware(['auth', 'role:Costumer'])->group(function () {
+    Route::controller(BookingController::class)->group(function () {
+        Route::prefix('booking')->group(function () {
+            Route::get('/pengajuan', 'bokingCostumer')->name('costumer.boking');
+            Route::post('/costumer/save', 'simpanBokingCostumer')->name('booking.save');
+        });
     });
 });
 

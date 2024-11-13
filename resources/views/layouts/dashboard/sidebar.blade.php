@@ -8,29 +8,31 @@
                 </a>
             </li>
 
-            <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                    <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">User Management</h4>
-            </li>
+            @hasrole('Administrator')
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">User Management</h4>
+                </li>
 
-            <li class="nav-item {{ Request::is('user-management/*') ? 'active submenu' : '' }}">
-                <a data-bs-toggle="collapse" href="#base">
-                    <i class="fas fa-users"></i>
-                    <p>Users</p>
-                    <span class="caret"></span>
-                </a>
-                <div class="collapse {{ Request::is('user-management/*') ? 'show' : '' }}" id="base">
-                    <ul class="nav nav-collapse">
-                        <li class="{{ Request::is('user-management/*') ? 'active' : '' }}">
-                            <a href="{{ route('user.index') }}">
-                                <span class="sub-item">Users Data</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                <li class="nav-item {{ Request::is('user-management/*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#base">
+                        <i class="fas fa-users"></i>
+                        <p>Users</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ Request::is('user-management/*') ? 'show' : '' }}" id="base">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ Request::is('user-management/*') ? 'active' : '' }}">
+                                <a href="{{ route('user.index') }}">
+                                    <span class="sub-item">Users Data</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endhasrole
             <li class="nav-section">
                 <span class="sidebar-mini-icon">
                     <i class="fa fa-ellipsis-h"></i>
@@ -86,6 +88,18 @@
                 </div>
             </li>
 
+            <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                    <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Boking Data</h4>
+            </li>
+            <li class="nav-item {{ Request::is('dataBoking/*') ? 'active' : '' }}">
+                <a href="{{ route('admin.dataBooking') }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>Boking Ruangan</p>
+                </a>
+            </li>
             <li class="nav-section">
                 <span class="sidebar-mini-icon">
                     <i class="fa fa-ellipsis-h"></i>

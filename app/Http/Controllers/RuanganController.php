@@ -39,6 +39,7 @@ class RuanganController extends Controller
             'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
             'thumbnail' => 'required|mimes:png,jpg,jpeg',
+            'status' => 'required|in:Sudah Dibooking,Belum Dibooking'
         ]);
 
         $file = $request->file('thumbnail');
@@ -47,7 +48,8 @@ class RuanganController extends Controller
         Ruangan::create([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public')
+            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public'),
+            'status' => $request->status
         ]);
 
         return redirect()->route('ruangan.index')
@@ -83,6 +85,7 @@ class RuanganController extends Controller
             'kd_ruangan' => 'sometimes|unique:ruangans,kd_ruangan,' . $id . '|min:5|max:25',
             'nama_ruangan' => 'sometimes|string|min:1',
             'thumbnail' => 'required|mimes:png,jpg,jpeg',
+            'status' => 'required|in:Sudah Dibooking,Belum Dibooking'
         ]);
 
         $file = $request->file('thumbnail');
@@ -91,7 +94,8 @@ class RuanganController extends Controller
         $ruangan->update([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public')
+            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public'),
+            'status' => $request->status
         ]);
 
         return redirect()->route('ruangan.index')

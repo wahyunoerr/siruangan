@@ -55,7 +55,13 @@
                                         </td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            <span class="badge badge-secondary">Administrator</span>
+                                            @if ($user->roles->first()->name == 'Administrator')
+                                                <span class="badge badge-secondary">{{ $user->roles->first()->name }}</span>
+                                            @elseif ($user->roles->first()->name == 'Costumer')
+                                                <span class="badge badge-primary">{{ $user->roles->first()->name }}</span>
+                                            @else
+                                                <span class="badge badge-danger">{{ $user->roles->first()->name }}</span>
+                                            @endif
                                         </td>
                                         <td>
                                             <div class="form-button-action">

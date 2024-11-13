@@ -14,7 +14,7 @@ class Ruangan extends Model
 
     protected $guarded = ['id'];
 
-    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'thumbnail'];
+    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'thumbnail', 'status'];
 
     /**
      * Get all of the penjadwalanruangan for the Ruangan

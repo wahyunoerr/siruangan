@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PenjadwalanRuangan;
+use App\Models\Event;
+use App\Models\Jadwal;
+use App\Models\Ruangan;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -12,8 +14,19 @@ class LandingController extends Controller
      */
     public function index()
     {
-        $penjadwalan = PenjadwalanRuangan::with('jadwal', 'ruangan', 'event')->get();
-        return view('welcome', compact('penjadwalan'));
+        $ruangan = Ruangan::all();
+        $event = Event::all();
+        $jadwal = Jadwal::all();
+
+
+        return view('welcome', compact('ruangan', 'event', 'jadwal'));
+    }
+
+
+    function search(Request $request)
+    {
+        $search = $request->search;
+        $ruangan = Ruangan::where('nama_ruangan', 'like', '%' . $search . '%')->get();
     }
 
     /**

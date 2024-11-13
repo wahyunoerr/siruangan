@@ -101,13 +101,13 @@
                                     </span>
                                     <select name="status" id="status"
                                         class="form-control @error('status') is-invalid @enderror">
-                                        <option selected disabled>--Pilih--
+                                        <option selected disabled>--Pilih--</option>
+                                        <option
+                                            value="Tersedia"{{ old('status', $jadwal->status) == 'Tersedia' ? 'selected' : '' }}>
+                                            Tersedia
                                         </option>
-                                        <option value="Tersedia"
-                                            {{ old('status', $jadwal->status) == 'Tersedia' ? 'selected' : '' }}>Tersedia
-                                        </option>
-                                        <option value="Tidak Tersedia"
-                                            {{ old('status', $jadwal->status) == 'Tidak Tersedia' ? 'selected' : '' }}>
+                                        <option
+                                            value="Tidak Tersedia"{{ old('status', $jadwal->status) == 'Tidak Tersedia' ? 'selected' : '' }}>
                                             Tidak Tersedia
                                         </option>
                                     </select>

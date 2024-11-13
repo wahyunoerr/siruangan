@@ -1,51 +1,68 @@
 @extends('layouts.landing.app')
 @section('title', 'Selamat Datang!')
 @section('content')
+    <div class="text-center mb-4">
+        <h2>Booking Ruangan</h2>
+    </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+        <button class="btn btn-sm btn-outline-danger" type="button"><i class="fa fa-search"></i></button>
+    </div>
 
-    <!-- Services Section -->
-    <section id="services" class="services section">
-
-        <!-- Section Title -->
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Ruangan</h2>
-            <div class="input-group rounded">
-                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                    aria-describedby="search-addon" />
-            </div>
-
-        </div><!-- End Section Title -->
-
-        <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="row gy-5">
-
-                @foreach ($penjadwalan as $item)
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ Storage::disk('public')->url($item->ruangan->thumbnail) }}" class="img-fluid"
-                                    alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-calendar4-week"></i>
+    @forelse ($ruangan as $item)
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <img src="{{ Storage::disk('public')->url($item->thumbnail) }}" class="card-img-top" alt="Room Image">
+                    <div class="card-body text-center">
+                        <div class="position-relative">
+                            <div class="position-absolute top-0 start-50 translate-middle">
+                                <div class="bg-primary text-white rounded-circle p-3">
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
-                                <a href="service-details.html" class="stretched-link">
-                                    <h3>{{ $item->ruangan->nama_ruangan }}</h3>
-                                </a>
-                                <p>
-                                    Status : @if ($item->status == 'Belum Diboking')
-                                        <span class="badge bg-danger">Belum Diboking</span>
-                                    @endif
-                                </p>
                             </div>
                         </div>
+                        <h5 class="mt-5">Ruangan A</h5>
+                        <p>Status:
+                            @if ($item->status == 'Sudah Booking')
+                                <span class="badge bg-success">Sudah Dibooking</span>
+                            @else
+                                <span class="badge bg-warning">Belum Dibooking</span>
+                            @endif
+                        </p>
+                        @auth
+                            @if (auth()->user()->hasRole('Costumer'))
+                                <button type="button" class="btn bg-primary text-white" data-bs-toggle="modal"
+                                    data-bs-target="#bookingModal" data-id="{{ $item->id }}">Pesan</button>
+                            @else
+                                <button type="button" class="btn bg-secondary text-white" disabled>Login sebagai Costumer untuk
+                                    Pesan</button>
+                            @endif
+                        @else
+                            <a href="{{ route('login') }}" class="btn bg-secondary text-white">Login untuk Pesan</a>
+                        @endauth
                     </div>
-                @endforeach
-
+                </div>
             </div>
-
         </div>
-
-    </section><!-- /Services Section -->
+    @empty
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="Room Image">
+                    <div class="card-body text-center">
+                        <div class="position-relative">
+                            <div class="position-absolute top-0 start-50 translate-middle">
+                                <div class="bg-primary text-white rounded-circle p-3">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mt-5">Data tidak Ditemukan</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforelse
 @endsection
+@include('boking')

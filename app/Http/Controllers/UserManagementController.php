@@ -14,7 +14,7 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
 
         $title = 'Delete User!';
         $text = "Are you sure you want to delete?";

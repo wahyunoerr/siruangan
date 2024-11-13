@@ -3,25 +3,26 @@
 
 @include('layouts.landing.head')
 
-<body class="index-page">
-
-    @include('layouts.landing.header')
-
-    <main class="main">
-        @yield('content')
-    </main>
-
-    @include('layouts.landing.footer')
-
-    <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+<body onload="hidePreloader()">
 
     <!-- Preloader -->
-    <div id="preloader"></div>
+    <div id="preloader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand ms-3" href="{{ route('landing') }}">Ruangan<span class="text-primary">.</span></a>
+        <a class="btn btn-outline-secondary me-3" href="{{ route('login') }}">Login</a>
+    </nav>
+
+    <div class="container mt-5">
+        @yield('content')
+    </div>
+    @include('layouts.landing.footer')
 
     @include('layouts.landing.script')
-
 </body>
 
 </html>
