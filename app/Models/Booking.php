@@ -15,7 +15,7 @@ class Booking extends Model
         'event_id',
         'jadwal_id',
         'ruangan_id',
-        'buktiTransakasi',
+        'buktiTransaksi',
         'uploadKopSurat',
         'status'
     ];

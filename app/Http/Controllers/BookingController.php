@@ -28,12 +28,12 @@ class BookingController extends Controller
         ]);
 
         $image = $request->file('buktiTransaksi');
-        $imageName = date('d-m-Y') . '_' . $image->getClientOriginalName();
+        $imageName = date('dmY') . time() . '_' . $image->getClientOriginalName();
 
         $fileName = null;
         if ($request->hasFile('upload_file')) {
             $file = $request->file('upload_file');
-            $fileName = date('d-m-Y') . '_' . $file->getClientOriginalName();
+            $fileName = date('dmY') . time() . '_' . $file->getClientOriginalName();
             $fileName = $file->storeAs('upload/kopSurat', $fileName, 'public');
         }
 
