@@ -51,14 +51,15 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="buktiTransaksi" class="form-label">Bukti Transaksi</label>
+                        <input type="file" class="form-control" name="buktiTransaksi" id="buktiTransaksi">
+                    </div>
+
+                    <div class="mb-3">
                         <div id="fileUploadContainer" style="display: none;">
                             <label for="upload_file" class="form-label">Upload Kop Surat</label>
                             <input type="file" class="form-control" name="upload_file" id="upload_file">
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="buktiTransaksi" class="form-label">Bukti Transaksi</label>
-                        <input type="file" class="form-control" name="buktiTransaksi" id="buktiTransaksi">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
