@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('booking.save') }}" method="POST">
+                <form action="{{ route('booking.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="ruangan_id" id="ruangan_id">
                     <input type="hidden" name="user_id" value="{{ auth()->user()->id ?? '' }}">
@@ -48,10 +48,6 @@
                     <div class="mb-3">
                         <label for="tanggal_booking" class="form-label">Tanggal Booking</label>
                         <input type="date" class="form-control" name="tanggal_booking" id="tanggal_booking" required>
-                    </div>
-
-                    <div class="mb-3">
-
                     </div>
 
                     <div class="mb-3">

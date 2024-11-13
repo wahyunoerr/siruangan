@@ -22,8 +22,8 @@ class BookingController extends Controller
             'event_id' => 'required|exists:event,id',
             'jadwal_id' => 'required|exists:jadwals,id',
             'ruangan_id' => 'required|exists:ruangans,id',
-            'buktiTransaksi' => 'required|file|mimes:jpg,png,pdf|max:2048',
-            'uploadKopSurat' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+            'buktiTransaksi' => 'required|file|mimes:jpg,png,jpeg|max:2048',
+            'upload_file' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
             'tanggal_booking' => 'required|date',
         ]);
 
@@ -31,18 +31,19 @@ class BookingController extends Controller
         $imageName = date('d-m-Y') . '_' . $image->getClientOriginalName();
 
         $fileName = null;
-        if ($request->hasFile('uploadKopSurat')) {
-            $file = $request->file('uploadKopSurat');
+        if ($request->hasFile('upload_file')) {
+            $file = $request->file('upload_file');
             $fileName = date('d-m-Y') . '_' . $file->getClientOriginalName();
             $fileName = $file->storeAs('upload/kopSurat', $fileName, 'public');
         }
+
         Booking::create([
             'user_id' => $request->user_id,
             'event_id' => $request->event_id,
             'jadwal_id' => $request->jadwal_id,
             'ruangan_id' => $request->ruangan_id,
             'buktiTransaksi' => $image->storeAs('upload/bukti', $imageName, 'public'),
-            'uploadKopSurat' => $file->storeAs('upload/kopSurat', $fileName, 'public'),
+            'uploadKopSurat' => $fileName,
             'tanggal_booking' => $request->tanggal_booking,
             'status' => 'menunggu',
         ]);
