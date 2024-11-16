@@ -17,6 +17,7 @@
                             <option value="" disabled selected>-- Pilih Event --</option>
                             @foreach ($event as $e)
                                 <option value="{{ $e->id }}" data-name="{{ $e->name }}">{{ $e->name }}
+                                    | Rp. {{ number_format($e->harga, 0, ',', '.') }}
                                 </option>
                             @endforeach
                         </select>
@@ -51,13 +52,18 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="buktiTransaksi" class="form-label">Bukti Transaksi</label>
-                        <input type="file" class="form-control" name="buktiTransaksi" id="buktiTransaksi">
+                        <div id="buktiTransaksi" style="display: none">
+                            <label for="buktiTransaksi" class="form-label">Bukti Transaksi <span
+                                    class="badge bg-warning">DP(50%)</span></label>
+                            <input type="file" class="form-control" name="buktiTransaksi" id="buktiTransaksi">
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <div id="fileUploadContainer" style="display: none;">
-                            <label for="upload_file" class="form-label">Upload Kop Surat</label>
+                            <label for="upload_file" class="form-label">Upload Kop Surat <span
+                                    class="badge bg-info">.pdf .doxc</span>
+                            </label>
                             <input type="file" class="form-control" name="upload_file" id="upload_file">
                         </div>
                     </div>
@@ -72,6 +78,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var eventSelect = document.getElementById('event_id');
         var fileUploadContainer = document.getElementById('fileUploadContainer');
+        var fileUploadBukti = document.getElementById('buktiTransaksi');
 
         var eventsWithFileUpload = ['Tahfiz Quran', 'Seminar', 'Perpisahan Sekolah'];
 
@@ -81,8 +88,10 @@
 
             if (eventsWithFileUpload.includes(selectedEventName)) {
                 fileUploadContainer.style.display = 'block';
+                fileUploadBukti.style.display = 'none';
             } else {
                 fileUploadContainer.style.display = 'none';
+                fileUploadBukti.style.display = 'block'
             }
         });
     });

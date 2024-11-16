@@ -14,7 +14,11 @@
 
     <nav class="navbar navbar-light bg-light justify-content-between">
         <a class="navbar-brand ms-3" href="{{ route('landing') }}">Ruangan<span class="text-primary">.</span></a>
-        <a class="btn btn-outline-secondary me-3" href="{{ route('login') }}">Login</a>
+        @auth
+            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">Dashboard</a>
+        @else
+            <a class="btn btn-outline-secondary me-3" href="{{ route('login') }}">Login</a>
+        @endauth
     </nav>
 
     <div class="container mt-5">

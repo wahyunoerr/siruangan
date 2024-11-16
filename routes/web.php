@@ -47,23 +47,9 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
         Route::delete('/destroy/{id}', 'destroy')->name('user.destroy');
     });
 
-    Route::controller(RuanganController::class)->prefix('ruangan')->group(function () {
-        Route::get('/index', 'index')->name('ruangan.index');
-        Route::get('/create', 'create')->name('ruangan.create');
-        Route::post('/store', 'store')->name('ruangan.store');
-        Route::get('/edit/{id}', 'edit')->name('ruangan.edit');
-        Route::put('/update/{id}', 'update')->name('ruangan.update');
-        Route::delete('/destroy/{id}', 'destroy')->name('ruangan.destroy');
-    });
 
-    Route::controller(JadwalController::class)->prefix('jadwal')->group(function () {
-        Route::get('/index', 'index')->name('jadwal.index');
-        Route::get('/create', 'create')->name('jadwal.create');
-        Route::post('/store', 'store')->name('jadwal.store');
-        Route::get('/edit/{id}', 'edit')->name('jadwal.edit');
-        Route::put('/update/{id}', 'update')->name('jadwal.update');
-        Route::delete('/destroy/{id}', 'destroy')->name('jadwal.destroy');
-    });
+
+
     Route::controller(PenjadwalanRuanganController::class)->prefix('penjadwalan')->group(function () {
         Route::get('/index', 'index')->name('penjadwalan.index');
         Route::get('/create', 'create')->name('penjadwalan.create');
@@ -81,15 +67,37 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
         Route::put('/update/{id}', 'update')->name('acara.update');
         Route::delete('/delete/{id}', 'destroy')->name('acara.delete');
     });
+});
 
+
+Route::middleware(['auth', 'role:Administrator|Perlengkapan'])->group(function () {
     Route::controller(BookingController::class)->group(function () {
         Route::prefix('dataBooking')->group(function () {
             Route::get('/', 'dataBooking')->name('admin.dataBooking');
+            Route::post('/{id}/update-status', 'updateStatus')->name('dataBooking.status');
             Route::post('/orders', 'store');
         });
     });
 });
 
+Route::middleware(['auth', 'role:Perlengkapan'])->group(function () {
+    Route::controller(RuanganController::class)->prefix('ruangan')->group(function () {
+        Route::get('/index', 'index')->name('ruangan.index');
+        Route::get('/create', 'create')->name('ruangan.create');
+        Route::post('/store', 'store')->name('ruangan.store');
+        Route::get('/edit/{id}', 'edit')->name('ruangan.edit');
+        Route::put('/update/{id}', 'update')->name('ruangan.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('ruangan.destroy');
+    });
+    Route::controller(JadwalController::class)->prefix('jadwal')->group(function () {
+        Route::get('/index', 'index')->name('jadwal.index');
+        Route::get('/create', 'create')->name('jadwal.create');
+        Route::post('/store', 'store')->name('jadwal.store');
+        Route::get('/edit/{id}', 'edit')->name('jadwal.edit');
+        Route::put('/update/{id}', 'update')->name('jadwal.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('jadwal.destroy');
+    });
+});
 
 Route::middleware(['auth', 'role:Costumer'])->group(function () {
     Route::controller(BookingController::class)->group(function () {

@@ -22,6 +22,12 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('admin123'),
                 'email_verified_at' => now(),
             ],
+            'perlengkapan' => [
+                'name' => 'perlengkapan',
+                'email' => 'perlengkapan@gmail.com',
+                'password' => Hash::make('perlengkapan'),
+                'email_verified_at' => now(),
+            ],
             'costumer' => [
                 'name' => 'costumer',
                 'email' => 'costumer@gmail.com',
@@ -39,6 +45,9 @@ class UserSeeder extends Seeder
 
             if ($key === 'costumer') {
                 $createUser->assignRole(Role::where('name', 'Costumer')->first());
+            }
+            if ($key === 'perlengkapan') {
+                $createUser->assignRole(Role::where('name', 'Perlengkapan')->first());
             }
         }
     }
