@@ -1,4 +1,5 @@
-.<nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+<nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+    data-background-color="purple2">
     <div class="container-fluid">
         <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
             <div class="input-group">

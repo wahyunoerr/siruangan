@@ -17,11 +17,11 @@
 
     <div class="wrapper">
         <!-- Sidebar -->
-        <div class="sidebar" data-background-color="dark">
+        <div class="sidebar" data-background-color="white">
             <div class="sidebar-logo">
 
                 <!-- Logo Header -->
-                <div class="logo-header" data-background-color="dark">
+                <div class="logo-header" data-background-color="purple2">
                     <a href="index.html" class="logo">
                         <img src="{{ asset('assets/dashboard/img/kaiadmin/logo_light.svg') }}" alt="navbar brand"
                             class="navbar-brand" height="20" />
