@@ -33,13 +33,13 @@
                     </div>
                 </li>
             @endhasrole
-            <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                    <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">Master Data</h4>
-            </li>
             @hasrole('Administrator')
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Master Data</h4>
+                </li>
                 <li class="nav-item {{ Request::is('event/*') ? 'active submenu' : '' }}">
                     <a data-bs-toggle="collapse" href="#tables">
                         <i class="fas fa-birthday-cake"></i>
@@ -93,30 +93,34 @@
                 </li>
             @endrole
 
-            <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                    <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">Boking Data</h4>
-            </li>
-            <li class="nav-item {{ Request::is('dataBoking/*') ? 'active' : '' }}">
-                <a href="{{ route('admin.dataBooking') }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    <p>Boking Ruangan</p>
-                </a>
-            </li>
-            {{-- <li class="nav-section">
-                <span class="sidebar-mini-icon">
-                    <i class="fa fa-ellipsis-h"></i>
-                </span>
-                <h4 class="text-section">Penjadwalan Data</h4>
-            </li>
-            <li class="nav-item {{ Request::is('penjadwalan/*') ? 'active' : '' }}">
-                <a href="{{ route('penjadwalan.index') }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    <p>Penjadwalan Ruangan</p>
-                </a>
-            </li> --}}
+            @hasanyrole('Administrator|Perlengkapan')
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Boking Data</h4>
+                </li>
+                <li class="nav-item {{ Request::is('dataBoking/*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.dataBooking') }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Boking Ruangan</p>
+                    </a>
+                </li>
+            @endhasanyrole
+            @hasrole('Costumer')
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Pengajuan Booking Anda</h4>
+                </li>
+                <li class="nav-item {{ Request::is('booking-costumer/*') ? 'active' : '' }}">
+                    <a href="{{ route('pengajuan.booking') }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Booking</p>
+                    </a>
+                </li>
+            @endhasrole
 
             @hasrole('Administrator')
                 <li class="nav-section">
@@ -125,8 +129,8 @@
                     </span>
                     <h4 class="text-section">Transaksi Data</h4>
                 </li>
-                <li class="nav-item">
-                    <a href="../widgets.html">
+                <li class="nav-item {{ Request::is('transaksi/*') ? 'active' : '' }}">
+                    <a href="{{ route('transaksi') }}">
                         <i class="fas fa-exchange-alt"></i>
                         <p>Transaksi</p>
                     </a>

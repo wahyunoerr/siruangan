@@ -4,7 +4,7 @@
 @include('layouts.landing.head')
 
 <body onload="hidePreloader()">
-
+    @include('sweetalert::alert')
     <!-- Preloader -->
     <div id="preloader">
         <div class="spinner-border text-primary" role="status">
@@ -15,7 +15,12 @@
     <nav class="navbar navbar-light bg-light justify-content-between">
         <a class="navbar-brand ms-3" href="{{ route('landing') }}">Ruangan<span class="text-primary">.</span></a>
         @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">Dashboard</a>
+            @hasrole('Administrator')
+                <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary">Dashboard</a>
+            @endhasrole
+            @hasrole('Costumer')
+                <a href="{{ route('pengajuan.booking') }}" class="btn btn-outline-secondary">Dashboard</a>
+            @endhasrole
         @else
             <a class="btn btn-outline-secondary me-3" href="{{ route('login') }}">Login</a>
         @endauth

@@ -7,6 +7,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,7 @@ Route::controller(LandingController::class)->group(function () {
     Route::get('/q', 'search')->name('ruangan.search');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,8 +47,6 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
     });
 
 
-
-
     Route::controller(PenjadwalanRuanganController::class)->prefix('penjadwalan')->group(function () {
         Route::get('/index', 'index')->name('penjadwalan.index');
         Route::get('/create', 'create')->name('penjadwalan.create');
@@ -67,10 +64,22 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
         Route::put('/update/{id}', 'update')->name('acara.update');
         Route::delete('/delete/{id}', 'destroy')->name('acara.delete');
     });
+
+    Route::controller(TransaksiController::class)->group(function () {
+        Route::prefix('transaksi')->group(function () {
+            Route::get('/', 'index')->name('transaksi');
+            Route::post('/upload-bukti/{id}', 'uploadBukti')->name('transaksi.uploadBukti');
+            Route::get('/transaksi/invoice/{id}', 'printInvoice')->name('transaksi.printInvoice');
+        });
+    });
 });
 
 
 Route::middleware(['auth', 'role:Administrator|Perlengkapan'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
     Route::controller(BookingController::class)->group(function () {
         Route::prefix('dataBooking')->group(function () {
             Route::get('/', 'dataBooking')->name('admin.dataBooking');
@@ -104,6 +113,17 @@ Route::middleware(['auth', 'role:Costumer'])->group(function () {
         Route::prefix('booking')->group(function () {
             Route::get('/pengajuan', 'bokingCostumer')->name('costumer.boking');
             Route::post('/costumer/save', 'simpanBokingCostumer')->name('booking.save');
+        });
+
+        Route::prefix('booking-costumer')->group(function () {
+            Route::get('/', 'indexBookingCostumer')->name('pengajuan.booking');
+            Route::post('/upload-berkas/{id}',  'uploadBukti')->name('upload.bukti');
+        });
+    });
+
+    Route::controller(TransaksiController::class)->group(function () {
+        Route::prefix('cetak-invoice')->group(function () {
+            Route::get('/{id}', 'printUserInvoice')->name('transaksi.printUserInvoice');
         });
     });
 });

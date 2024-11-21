@@ -18,6 +18,10 @@ class LandingController extends Controller
         $event = Event::all();
         $jadwal = Jadwal::all();
 
+        $title = 'Delete Jadwal!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
+
 
         return view('welcome', compact('ruangan', 'event', 'jadwal'));
     }

@@ -74,9 +74,13 @@
                                                 <td>{{ $booking->jadwal->day }}, {{ $booking->jadwal->waktuMulai }} sd
                                                     {{ $booking->jadwal->waktuSelesai }}</td>
                                                 <td>{{ $booking->ruangan->nama_ruangan }}</td>
-                                                <td><a href="{{ $booking->buktiTransaksi }}" data-bs-toggle="lightbox"><img
-                                                            src="{{ Storage::disk('public')->url($booking->buktiTransaksi) }}"
-                                                            alt="" width="100px"></a></td>
+                                                @if ($booking->buktiTransaksi)
+                                                    <td><a href="{{ $booking->buktiTransaksi }}" data-bs-toggle="lightbox"><img
+                                                                src="{{ Storage::disk('public')->url($booking->buktiTransaksi) }}"
+                                                                alt="" width="100px"></a></td>
+                                                @else
+                                                    <td>Tidak ada</td>
+                                                @endif
                                                 <td>{{ date('d/m/Y', strtotime($booking->tanggal_booking)) }}</td>
                                             @endrole
 
@@ -187,6 +191,8 @@
                                                     @elseif ($booking->uploadKopSurat && $booking->status == 'menunggu')
                                                         <span class="badge badge-warning">Menunggu Persetujuan
                                                             Perlengkapan</span>
+                                                    @elseif ($booking->uploadKopSurat && !$booking->buktiTransaksi)
+                                                        <span class="badge badge-warning">Menunggu Upload Bukti</span>
                                                     @elseif ($booking->uploadKopSurat && $booking->status == 'setujui')
                                                         <button type="button" class="btn btn-primary btn-sm"
                                                             data-bs-toggle="modal"

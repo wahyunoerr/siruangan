@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($role == 'Perlengkapan') {
             return redirect()->intended(RouteServiceProvider::HOME);
         } elseif ($role == 'Costumer') {
-            return redirect('/');
+            return redirect()->route('pengajuan.booking');
         } else {
             return redirect('/');
         }

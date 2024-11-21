@@ -5,70 +5,78 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Booking extends Model
+class Transaksi extends Model
 {
     use HasFactory;
-    protected $table = 'booking';
+
+    protected $table = 'transaksi';
+
     protected $fillable = [
         'user_id',
         'event_id',
         'jadwal_id',
         'ruangan_id',
-        'buktiTransaksi',
-        'uploadKopSurat',
-        'tanggal_booking',
-        'status'
+        'booking_id',
+        'dp',
+        'sisaPelunasan',
+        'status',
+        'buktiPelunasan',
     ];
 
     /**
-     * Get the user that owns the Booking
+     * Get the user that owns the Transaksi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function booking(): BelongsTo
+    {
+        return $this->belongsTo(Booking::class);
+    }
+
+    /**
+     * Get the user that owns the Transaksi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * Get the event that owns the Booking
+     * Get the event that owns the Transaksi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function event(): BelongsTo
     {
-        return $this->belongsTo(Event::class, 'event_id', 'id');
+        return $this->belongsTo(Event::class);
     }
 
     /**
-     * Get the jadwal that owns the Booking
+     * Get the jadwal that owns the Transaksi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function jadwal(): BelongsTo
     {
-        return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id');
+        return $this->belongsTo(Jadwal::class);
     }
 
+
     /**
-     * Get the ruangan that owns the Booking
+     * Get the user that owns the Transaksi
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function ruangan(): BelongsTo
     {
-        return $this->belongsTo(Ruangan::class, 'ruangan_id', 'id');
+        return $this->belongsTo(Ruangan::class);
     }
 
-    /**
-     * Get the transaksi associated with the Booking
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function transaksi(): HasOne
+    public function getIsLunasAttribute()
     {
-        return $this->hasOne(Transaksi::class, 'booking_id', 'id');
+        return $this->sisaPelunasan == 0;
     }
 }

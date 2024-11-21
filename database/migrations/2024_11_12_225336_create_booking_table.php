@@ -17,10 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('jadwal_id');
             $table->unsignedBigInteger('ruangan_id');
-            $table->string('buktiTransaksi', 100);
+            $table->string('buktiTransaksi', 100)->nullable();
             $table->string('uploadKopSurat', 100)->nullable();
             $table->enum('status', ['setujui', 'tolak', 'menunggu'])->default('menunggu');
             $table->date('tanggal_booking');
+            $table->unique(['tanggal_booking', 'jadwal_id', 'ruangan_id']);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

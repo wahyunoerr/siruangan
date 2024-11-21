@@ -1,19 +1,9 @@
 <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
     data-background-color="purple2">
     <div class="container-fluid">
-        <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <button type="submit" class="btn btn-search pe-1">
-                        <i class="fa fa-search search-icon"></i>
-                    </button>
-                </div>
-                <input type="text" placeholder="Search ..." class="form-control" />
-            </div>
-        </nav>
 
         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-            <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+            {{-- <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-expanded="false" aria-haspopup="true">
                     <i class="fa fa-search"></i>
@@ -93,8 +83,8 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-
+            </li> --}}
+            {{--
             <li class="nav-item topbar-icon dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -132,8 +122,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="{{ asset('assets/dashboard/img/profile2.jpg') }}"
-                                            alt="Img Profile" />
+                                        <img src="{{ asset('assets/dashboard/img/profile2.jpg') }}" alt="Img Profile" />
                                     </div>
                                     <div class="notif-content">
                                         <span class="block">
@@ -160,11 +149,10 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
             <li class="nav-item topbar-user dropdown hidden-caret">
-                <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
-                    aria-expanded="false">
+                <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
                         <img src="{{ 'https://ui-avatars.com/api/?name=' . Auth::user()->name . '&background=000&color=FDFDFD&rounded=true' }}"
                             alt="..." class="avatar-img rounded-circle" />
@@ -198,8 +186,7 @@
                                 Logout
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
 
