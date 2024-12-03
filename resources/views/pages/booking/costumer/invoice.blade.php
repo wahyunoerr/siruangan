@@ -134,7 +134,7 @@
                 </tr>
                 <tr>
                     <th>Tanggal Booking</th>
-                    <td>{{ date('d/m/Y', strtotime($transaksi->tanggal_booking)) }}</td>
+                    <td>{{ date('d/m/Y', strtotime($transaksi->booking->tanggal_booking)) }}</td>
                 </tr>
                 <tr>
                     <th>DP</th>

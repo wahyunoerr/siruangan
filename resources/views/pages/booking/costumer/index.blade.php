@@ -50,7 +50,8 @@
                                         @if ($item->buktiTransaksi)
                                             <td>
                                                 <a href="{{ $item->buktiTransaksi }}" data-bs-toggle="lightbox">
-                                                    <img src="{{ $item->buktiTransaksi }}" width="100px">
+                                                    <img src="{{ Storage::disk('public')->url($item->buktiTransaksi) }}"
+                                                        width="100px">
                                                 </a>
                                             </td>
                                         @else
