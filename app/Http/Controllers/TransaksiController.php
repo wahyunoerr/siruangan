@@ -46,18 +46,16 @@ class TransaksiController extends Controller
 
     public function printUserInvoice($bookingId)
     {
-        // Mengambil transaksi berdasarkan ID booking, dan memastikan ID user yang login
         $booking = Booking::with(['transaksi' => function ($query) {
             $query->with(['event', 'ruangan', 'jadwal', 'user']);
         }])
-            ->where('user_id', '=', auth()->id())  // Pastikan pengguna yang login
-            ->where('id', $bookingId)  // ID booking yang diterima
+            ->where('user_id', '=', auth()->id())
+            ->where('id', $bookingId)
             ->first();
 
         if ($booking && $booking->transaksi) {
             $transaksi = $booking->transaksi;
         } else {
-            // Tangani jika transaksi tidak ditemukan atau booking tidak ditemukan
             return redirect()->route('booking.index')->with('error', 'Invoice tidak ditemukan.');
         }
 
