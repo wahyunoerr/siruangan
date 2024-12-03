@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,12 +44,26 @@ class TransaksiController extends Controller
         return view('pages.transaksi.invoice', compact('transaksi'));
     }
 
-    public function printUserInvoice($id)
+    public function printUserInvoice($bookingId)
     {
-        $user = User::with(['transaksi.event', 'transaksi.ruangan', 'transaksi.jadwal'])
-            ->findOrFail(auth()->id());
-        return view('pages.booking.costumer.invoice', compact('user'));
+        // Mengambil transaksi berdasarkan ID booking, dan memastikan ID user yang login
+        $booking = Booking::with(['transaksi' => function ($query) {
+            $query->with(['event', 'ruangan', 'jadwal', 'user']);
+        }])
+            ->where('user_id', '=', auth()->id())  // Pastikan pengguna yang login
+            ->where('id', $bookingId)  // ID booking yang diterima
+            ->first();
+
+        if ($booking && $booking->transaksi) {
+            $transaksi = $booking->transaksi;
+        } else {
+            // Tangani jika transaksi tidak ditemukan atau booking tidak ditemukan
+            return redirect()->route('booking.index')->with('error', 'Invoice tidak ditemukan.');
+        }
+
+        return view('pages.booking.costumer.invoice', compact('transaksi'));
     }
+
 
 
 

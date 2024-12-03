@@ -88,6 +88,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @include('pages.transaksi.modal', ['t' => $t])
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -112,4 +113,3 @@
         </div>
     </div>
 @endsection
-@include('pages.transaksi.modal')

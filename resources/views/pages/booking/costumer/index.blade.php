@@ -69,26 +69,20 @@
                                             </td>
                                         @endif
                                         <td>
-                                            @if (
-                                                ($item->status == 'setujui' && $item->event->name === 'Seminar') ||
-                                                    $item->event->name === 'Tahfiz Quran' ||
-                                                    $item->event->name === 'Perpisahan Sekolah')
-                                                @if (!$item->uploadKopSurat)
-                                                    <button type="button" class="btn btn-success btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#uploadModal{{ $item->id }}">
-                                                        Upload
-                                                    </button>
-                                                @elseif ($item->buktiTransaksi && $item->uploadKopSurat)
-                                                    <a href="{{ route('transaksi.printUserInvoice', $item->id) }}"
-                                                        target="_blank" class="btn btn-primary">Invoice</a>
-                                                @endif
+                                            @if ($item->status == 'setujui' && !$item->buktiTransaksi)
+                                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#uploadModal{{ $item->id }}">
+                                                    Upload Bukti
+                                                </button>
                                             @elseif ($item->status == 'setujui' && $item->buktiTransaksi)
-                                                <a href="{{ route('transaksi.printUserInvoice', $item->id) }}"
-                                                    target="_blank" class="btn btn-sm btn-success">Invoice</a>
+                                                <a href="{{ route('transaksi.printUserInvoice', ['id' => $item->id]) }}"
+                                                    target="_blank" class="btn btn-primary">Invoice</a>
+                                            @else
+                                                <p>Sedang Dalam Proses</p>
                                             @endif
                                         </td>
                                     </tr>
+                                    @include('pages.booking.costumer.modal', ['item' => $item])
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -111,4 +105,3 @@
         </div>
     </div>
 @endsection
-@include('pages.booking.costumer.modal')

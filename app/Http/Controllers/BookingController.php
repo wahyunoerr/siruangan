@@ -41,7 +41,7 @@ class BookingController extends Controller
             'tanggal_booking' => 'required',
         ];
 
-        if ($eventName === 'Seminar') {
+        if ($eventName === 'Seminar' | $eventName === 'Perpisahan Sekolah' | $eventName === 'Tahfiz Quran') {
             $rules['upload_file'] = 'required|file|mimes:docx,pdf|max:2048';
         } else {
             $rules['buktiTransaksi'] = 'required|file|mimes:jpg,png,jpeg|max:2048';
@@ -107,54 +107,67 @@ class BookingController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $request->validate([
+        $userRole = auth()->user()->roles->pluck('name')->first();
+
+        $rules = [
             'status' => 'required|in:setujui,tolak,menunggu',
-            'dp' => 'required_if:status,setujui|numeric',
-        ]);
+        ];
+
+        if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
+            $rules['dp'] = 'required|numeric';
+        }
+
+        $request->validate($rules);
 
         $booking = Booking::with(['event'])->findOrFail($id);
 
         if (in_array($booking->event->name, ['Tahfiz Quran', 'Seminar', 'Perpisahan Sekolah'])) {
             if ($booking->uploadKopSurat) {
-                if ($request->input('status') === 'setujui') {
-                    $sisaPelunasan = $booking->event->harga - $request->input('dp');
-                    Transaksi::create([
-                        'booking_id' => $booking->id,
-                        'user_id' => $booking->user_id,
-                        'event_id' => $booking->event_id,
-                        'jadwal_id' => $booking->jadwal_id,
-                        'ruangan_id' => $booking->ruangan_id,
-                        'dp' => $request->input('dp'),
-                        'sisaPelunasan' => $sisaPelunasan,
-                        'status' => $sisaPelunasan <= 0 ? 'Lunas' : 'Belum Lunas',
-                    ]);
+                if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
+                    $this->createTransaksi($booking, $request->input('dp'));
                 }
                 $booking->status = $request->input('status');
                 $booking->save();
 
-                return redirect('transaksi')->with('success', 'Transaksi berhasil disimpan.');
+                return $this->redirectAfterUpdate($userRole);
             } else {
-                return redirect()->back()->with('error', 'Terjadi Kesalahan!');
+                return redirect()->back()->with('error', 'Kop surat wajib diunggah untuk jenis acara ini!');
             }
         } else {
-            if ($request->input('status') === 'setujui') {
-                $sisaPelunasan = $booking->event->harga - $request->input('dp');
-                Transaksi::create([
-                    'booking_id' => $booking->id,
-                    'user_id' => $booking->user_id,
-                    'event_id' => $booking->event_id,
-                    'jadwal_id' => $booking->jadwal_id,
-                    'ruangan_id' => $booking->ruangan_id,
-                    'dp' => $request->input('dp'),
-                    'sisaPelunasan' => $sisaPelunasan,
-                    'status' => $sisaPelunasan <= 0 ? 'Lunas' : 'Belum Lunas',
-                ]);
+            if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
+                $this->createTransaksi($booking, $request->input('dp'));
             }
             $booking->status = $request->input('status');
             $booking->save();
 
+            return $this->redirectAfterUpdate($userRole);
+        }
+    }
+
+    private function createTransaksi($booking, $dp)
+    {
+        $sisaPelunasan = $booking->event->harga - $dp;
+
+        Transaksi::create([
+            'booking_id' => $booking->id,
+            'user_id' => $booking->user_id,
+            'event_id' => $booking->event_id,
+            'jadwal_id' => $booking->jadwal_id,
+            'ruangan_id' => $booking->ruangan_id,
+            'dp' => $dp,
+            'sisaPelunasan' => $sisaPelunasan,
+            'status' => $sisaPelunasan <= 0 ? 'Lunas' : 'Belum Lunas',
+        ]);
+    }
+
+
+    private function redirectAfterUpdate($userRole)
+    {
+        if ($userRole === 'Administrator') {
             return redirect('transaksi')->with('success', 'Transaksi berhasil disimpan.');
         }
+
+        return redirect('/dataBooking')->with('success', 'Status berhasil diperbarui.');
     }
 
 
@@ -181,7 +194,9 @@ class BookingController extends Controller
     public function indexBookingCostumer()
     {
 
-        $booking = Booking::where('user_id', auth()->id())->with(['event', 'jadwal'])->get();
+        $booking = Booking::with(['jadwal', 'event', 'ruangan'])
+            ->where('user_id', auth()->id())
+            ->get();
 
         return view('pages.booking.costumer.index', compact('booking'));
     }

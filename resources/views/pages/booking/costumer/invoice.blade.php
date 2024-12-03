@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice User - {{ $user->name }}</title>
+    <title>Invoice User - {{ $transaksi->user->name }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -109,49 +109,47 @@
     <div class="container">
         <div class="header">
             <img src="{{ asset('images/logo.png') }}" alt="Logo">
-            <h1>Invoice User - {{ $user->name }}</h1>
+            <h1>Invoice User - {{ $transaksi->user->name }}</h1>
         </div>
 
-        @foreach ($user->transaksi as $transaksi)
-            <div class="details">
-                <h2>Invoice #{{ $transaksi->id }} - {{ $transaksi->event->name }}</h2>
-                <table>
-                    <tr>
-                        <th>Nama User</th>
-                        <td>{{ $user->name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nama Acara</th>
-                        <td>{{ $transaksi->event->name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Ruangan</th>
-                        <td>{{ $transaksi->ruangan->nama_ruangan }}</td>
-                    </tr>
-                    <tr>
-                        <th>Jadwal</th>
-                        <td>{{ $transaksi->jadwal->day }} - {{ $transaksi->jadwal->waktuMulai }} s.d
-                            {{ $transaksi->jadwal->waktuSelesai }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tanggal Booking</th>
-                        <td>{{ date('d/m/Y', strtotime($transaksi->tanggal_booking)) }}</td>
-                    </tr>
-                    <tr>
-                        <th>DP</th>
-                        <td>Rp. {{ number_format($transaksi->dp, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <th>Sisa Pelunasan</th>
-                        <td>Rp. {{ number_format($transaksi->sisaPelunasan, 0, ',', '.') }}</td>
-                    </tr>
-                </table>
-            </div>
+        <div class="details">
+            <h2>Invoice #{{ $transaksi->id }} - {{ $transaksi->event->name }}</h2>
+            <table>
+                <tr>
+                    <th>Nama User</th>
+                    <td>{{ $transaksi->user->name }}</td>
+                </tr>
+                <tr>
+                    <th>Nama Acara</th>
+                    <td>{{ $transaksi->event->name }}</td>
+                </tr>
+                <tr>
+                    <th>Ruangan</th>
+                    <td>{{ $transaksi->ruangan->nama_ruangan }}</td>
+                </tr>
+                <tr>
+                    <th>Jadwal</th>
+                    <td>{{ $transaksi->jadwal->day }} - {{ $transaksi->jadwal->waktuMulai }} s.d
+                        {{ $transaksi->jadwal->waktuSelesai }}</td>
+                </tr>
+                <tr>
+                    <th>Tanggal Booking</th>
+                    <td>{{ date('d/m/Y', strtotime($transaksi->tanggal_booking)) }}</td>
+                </tr>
+                <tr>
+                    <th>DP</th>
+                    <td>Rp. {{ number_format($transaksi->dp, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <th>Sisa Pelunasan</th>
+                    <td>Rp. {{ number_format($transaksi->sisaPelunasan, 0, ',', '.') }}</td>
+                </tr>
+            </table>
+        </div>
 
-            <div class="total">
-                <p>Total: <span>Rp. {{ number_format($transaksi->event->harga, 0, ',', '.') }}</span></p>
-            </div>
-        @endforeach
+        <div class="total">
+            <p>Total: <span>Rp. {{ number_format($transaksi->event->harga, 0, ',', '.') }}</span></p>
+        </div>
 
         <div class="note">
             <p>Terima kasih telah melakukan transaksi dengan kami. Jika Anda membutuhkan bantuan lebih lanjut, jangan
