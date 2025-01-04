@@ -22,7 +22,7 @@
                 <li class="nav-item"><a class="nav-link" href="#description">Deskripsi</a></li>
                 <li class="nav-item"><a class="nav-link" href="#details">Ruangan</a></li>
                 <li class="nav-item"><a class="nav-link" href="#schedule">Jadwal</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary text-white" href="#booking">Booking Sekarang</a>
+                <li class="nav-item"><a class="nav-link btn btn-primary" href="#booking">Booking Sekarang</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
