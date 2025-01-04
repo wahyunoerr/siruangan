@@ -15,18 +15,19 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('event_id');
-            $table->unsignedBigInteger('jadwal_id');
             $table->unsignedBigInteger('ruangan_id');
             $table->string('buktiTransaksi', 100)->nullable();
             $table->string('uploadKopSurat', 100)->nullable();
             $table->enum('status', ['setujui', 'tolak', 'menunggu'])->default('menunggu');
             $table->date('tanggal_booking');
-            $table->unique(['tanggal_booking', 'jadwal_id', 'ruangan_id']);
+            $table->time('jadwal_start_time');
+            $table->time('jadwal_end_time');
+            $table->enum('jadwal_day', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
+            $table->unique(['tanggal_booking', 'ruangan_id']);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('event_id')->references('id')->on('event')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('jadwal_id')->references('id')->on('jadwals')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('ruangan_id')->references('id')->on('ruangans')->onDelete('cascade')->onUpdate('cascade');
         });
     }

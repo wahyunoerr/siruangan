@@ -13,7 +13,7 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('acara.index') }}">List Booking</a>
+                <a href="{{ route('admin.dataBooking') }}">List Booking</a>
             </li>
         </ul>
     </div>
@@ -23,8 +23,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-between">
                             <h4 class="card-title">Data Booking</h4>
+                            @role('Administrator')
+                                <a href="{{ route('listPeriode.cetak') }}" class="btn btn-secondary float-end">Cetak Booking<span
+                                        class="ms-2"></span><i class="fas fa-arrow-right"></i></a>
+                            @endrole
                         </div>
                     </div>
                     <div class="card-body">
@@ -71,8 +75,8 @@
 
                                             @role('Administrator')
                                                 <td>Rp. {{ number_format($booking->event->harga, 0, ',', '.') }}</td>
-                                                <td>{{ $booking->jadwal->day }}, {{ $booking->jadwal->waktuMulai }} sd
-                                                    {{ $booking->jadwal->waktuSelesai }}</td>
+                                                <td>{{ $booking->jadwal_day }}, {{ $booking->jadwal_start_time }} sd
+                                                    {{ $booking->jadwal_end_time }}</td>
                                                 <td>{{ $booking->ruangan->nama_ruangan }}</td>
                                                 @if ($booking->buktiTransaksi)
                                                     <td><a href="{{ $booking->buktiTransaksi }}" data-bs-toggle="lightbox"><img

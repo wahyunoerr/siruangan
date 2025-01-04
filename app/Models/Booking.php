@@ -14,12 +14,14 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'event_id',
-        'jadwal_id',
         'ruangan_id',
         'buktiTransaksi',
         'uploadKopSurat',
         'tanggal_booking',
-        'status'
+        'status',
+        'jadwal_start_time',
+        'jadwal_end_time',
+        'jadwal_day'
     ];
 
     /**
@@ -40,16 +42,6 @@ class Booking extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'event_id', 'id');
-    }
-
-    /**
-     * Get the jadwal that owns the Booking
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function jadwal(): BelongsTo
-    {
-        return $this->belongsTo(Jadwal::class, 'jadwal_id', 'id');
     }
 
     /**

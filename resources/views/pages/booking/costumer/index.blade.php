@@ -30,8 +30,8 @@
                                 @foreach ($booking as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->jadwal->day }}, {{ $item->jadwal->waktuMulai }} s.d
-                                            {{ $item->jadwal->waktuSelesai }}
+                                        <td>{{ $item->jadwal_day }}, {{ $item->jadwal_start_time }} s.d
+                                            {{ $item->jadwal_end_time }}
                                         </td>
                                         <td>{{ $item->event->name }}</td>
                                         <td>{{ $item->ruangan->nama_ruangan }}</td>
@@ -88,7 +88,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    th>No</th>
+                                    <th>No</th>
                                     <th>Jadwal</th>
                                     <th>Nama Acara</th>
                                     <th>Nama Ruangan</th>

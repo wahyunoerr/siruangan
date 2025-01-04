@@ -56,6 +56,28 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Landing Page</h4>
+                </li>
+                <li class="nav-item {{ Request::is('landing/*') ? 'active submenu' : '' }}">
+                    <a data-bs-toggle="collapse" href="#landing">
+                        <i class="fas fa-globe"></i>
+                        <p>Landing Page</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse {{ Request::is('landing/*') ? 'show' : '' }}" id="landing">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ Request::is('landing/*') ? 'active' : '' }}">
+                                <a href="{{ route('landing.manage') }}">
+                                    <span class="sub-item">Manage Landing Page</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             @endhasrole
 
             @hasrole('Perlengkapan')
@@ -70,22 +92,6 @@
                             <li class="{{ Request::is('ruangan/*') ? 'active' : '' }}">
                                 <a href="{{ route('ruangan.index') }}">
                                     <span class="sub-item">Data Ruangan</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item {{ Request::is('jadwal/*') ? 'active submenu' : '' }}">
-                    <a data-bs-toggle="collapse" href="#forms">
-                        <i class="fas fa-calendar"></i>
-                        <p>Jadwal</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ Request::is('jadwal/*') ? 'show' : '' }}" id="forms">
-                        <ul class="nav nav-collapse">
-                            <li class="{{ Request::is('jadwal/*') ? 'active' : '' }}">
-                                <a href="{{ route('jadwal.index') }}">
-                                    <span class="sub-item">Data Jadwal</span>
                                 </a>
                             </li>
                         </ul>
@@ -139,3 +145,8 @@
         </ul>
     </div>
 </div>
+
+@auth
+    <img src="{{ 'https://ui-avatars.com/api/?name=' . Auth::user()->name . '&background=000&color=FDFDFD&rounded=true' }}"
+        alt="..." class="avatar-img rounded-circle" />
+@endauth

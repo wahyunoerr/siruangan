@@ -53,8 +53,8 @@
                                         <td>{{ $t->ruangan->nama_ruangan }}</td>
                                         <td>Rp. {{ number_format($t->dp, 0, ',', '.') }}</td>
                                         <td>Rp. {{ number_format($t->sisaPelunasan, 0, ',', '.') }}</td>
-                                        <td>{{ $t->jadwal->day }},{{ $t->jadwal->waktuMulai }} s.d
-                                            {{ $t->jadwal->waktuSelesai }}</td>
+                                        <td>{{ $t->booking->jadwal_day }},{{ $t->booking->jadwal_start_time }} s.d
+                                            {{ $t->booking->jadwal_end_time }}</td>
                                         <td> {{ date('d/m/Y', strtotime($t->booking->tanggal_booking)) }}</td>
                                         <td>
                                             @if ($t->status == 'Belum Lunas')

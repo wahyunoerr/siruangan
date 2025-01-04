@@ -99,21 +99,51 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label for="thumbnail" class="form-label">Foto Ruangan</label>
+                                <label for="images" class="form-label">Foto Ruangan</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
                                         <i class="fas fa-cloud-upload-alt"></i>
                                     </span>
-                                    <input type="file" name="thumbnail" id="thumbnail" value="{{ old('thumbnail') }}"
-                                        class="form-control @error('thumbnail') is-invalid @enderror"
-                                        placeholder="Foto Ruangan">
+                                    <input type="file" name="images[]" id="images" multiple
+                                        class="form-control @error('images.*') is-invalid @enderror"
+                                        placeholder="Foto Ruangan" onchange="previewImages()">
 
-                                    @error('thumbnail')
+                                    @error('images.*')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
                                     @enderror
                                 </div>
+                                <div id="imagePreview" class="mt-3 d-flex flex-wrap gap-2"></div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="videos" class="form-label">Video Ruangan</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <input type="file" name="videos" id="videos"
+                                        class="form-control @error('videos') is-invalid @enderror"
+                                        placeholder="Video Ruangan">
+
+                                    @error('videos')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
+                                    placeholder="Keterangan">{{ old('keterangan') }}</textarea>
+                                @error('keterangan')
+                                    <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
                             </div>
 
                             <div class="col-md-12">
@@ -132,4 +162,33 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImages() {
+            var preview = document.querySelector('#imagePreview');
+            preview.innerHTML = '';
+            if (this.files) {
+                [].forEach.call(this.files, readAndPreview);
+            }
+
+            function readAndPreview(file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    return alert(file.name + " is not an image");
+                }
+
+                var reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    var image = new Image();
+                    image.height = 100;
+                    image.title = file.name;
+                    image.src = this.result;
+                    image.classList.add('me-2', 'mb-2');
+                    preview.appendChild(image);
+                });
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.querySelector('#images').addEventListener("change", previewImages);
+    </script>
 @endsection

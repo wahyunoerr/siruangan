@@ -40,7 +40,9 @@
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
+                                    <th>Video Ruangan</th>
                                     <th>Status Ruangan</th>
+                                    <th>Keterangan</th>
                                     <th width="10%">Action</th>
                                 </tr>
                             </thead>
@@ -53,11 +55,101 @@
                                         </td>
                                         <td>{{ $ruangan->nama_ruangan }}</td>
                                         <td>
-                                            <a href="{{ Storage::disk('public')->url($ruangan->thumbnail) }}?image=250"
-                                                data-toggle="lightbox" data-caption="{{ $ruangan->nama_ruangan }}">
-                                                <img src="{{ Storage::disk('public')->url($ruangan->thumbnail) }}"
-                                                    class="img-fluid" width="250">
-                                            </a>
+                                            @if ($ruangan->images->isNotEmpty())
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#imageModal-{{ $ruangan->id }}">
+                                                    View Images
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="imageModal-{{ $ruangan->id }}" tabindex="-1"
+                                                    aria-labelledby="imageModalLabel-{{ $ruangan->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="imageModalLabel-{{ $ruangan->id }}">
+                                                                    {{ $ruangan->nama_ruangan }}</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div id="carousel-{{ $ruangan->id }}"
+                                                                    class="carousel slide" data-bs-ride="carousel">
+                                                                    <div class="carousel-inner">
+                                                                        @php
+                                                                            $images = json_decode(
+                                                                                $ruangan->images->first()->images,
+                                                                            );
+                                                                        @endphp
+                                                                        @foreach ($images as $index => $image)
+                                                                            <div
+                                                                                class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                                                                <img src="{{ Storage::disk('public')->url($image) }}"
+                                                                                    class="d-block w-100" height="500">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                    <button class="carousel-control-prev" type="button"
+                                                                        data-bs-target="#carousel-{{ $ruangan->id }}"
+                                                                        data-bs-slide="prev">
+                                                                        <span class="carousel-control-prev-icon"
+                                                                            aria-hidden="true"></span>
+                                                                        <span class="visually-hidden">Previous</span>
+                                                                    </button>
+                                                                    <button class="carousel-control-next" type="button"
+                                                                        data-bs-target="#carousel-{{ $ruangan->id }}"
+                                                                        data-bs-slide="next">
+                                                                        <span class="carousel-control-next-icon"
+                                                                            aria-hidden="true"></span>
+                                                                        <span class="visually-hidden">Next</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <span class="badge badge-danger">No Image</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($ruangan->videos)
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#videoModal-{{ $ruangan->id }}">
+                                                    View Videos
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="videoModal-{{ $ruangan->id }}" tabindex="-1"
+                                                    aria-labelledby="videoModalLabel-{{ $ruangan->id }}"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="videoModalLabel-{{ $ruangan->id }}">
+                                                                    {{ $ruangan->nama_ruangan }}</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @foreach (json_decode($ruangan->videos) as $video)
+                                                                    <video width="100%" height="500" controls>
+                                                                        <source
+                                                                            src="{{ Storage::disk('public')->url($video) }}"
+                                                                            type="video/mp4">
+                                                                        Your browser does not support the video tag.
+                                                                    </video>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <span class="badge badge-danger">No Video</span>
+                                            @endif
                                         </td>
                                         <td>
                                             @if ($ruangan->status == 'Sudah Dibooking')
@@ -68,11 +160,12 @@
                                                 <span class="badge badge-danger">Data booking tidak ditemukan</span>
                                             @endif
                                         </td>
+                                        <td>{{ $ruangan->keterangan }}</td>
                                         <td>
                                             <div class="form-button-action">
-                                                <a href="{{ route('ruangan.edit', $ruangan->id) }}" data-bs-toggle="tooltip"
-                                                    title="Edit" class="btn btn-link btn-primary btn-lg"
-                                                    data-original-title="Edit">
+                                                <a href="{{ route('ruangan.edit', $ruangan->id) }}"
+                                                    data-bs-toggle="tooltip" title="Edit"
+                                                    class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
 
@@ -93,7 +186,9 @@
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
+                                    <th>Video Ruangan</th>
                                     <th>Status Ruangan</th>
+                                    <th>Keterangan</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

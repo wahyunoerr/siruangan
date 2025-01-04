@@ -1,8 +1,8 @@
-@extends('layouts.dashboard.app', ['title' => 'Create Jadwal'])
+@extends('layouts.dashboard.app', ['title' => 'Create Landing'])
 
 @section('content')
     <div class="page-header">
-        <h3 class="fw-bold mb-3">Jadwal Create</h3>
+        <h3 class="fw-bold mb-3">Create Landing</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href="{{ route('dashboard') }}">
@@ -13,13 +13,13 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('jadwal.index') }}">Jadwal</a>
+                <a href="{{ route('landing.manage') }}">Landing</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route('jadwal.create') }}">Create</a>
+                <a href="{{ route('landing.create') }}">Create</a>
             </li>
         </ul>
     </div>
@@ -29,29 +29,49 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Form Input Jadwal</h4>
-                        <a href="{{ route('jadwal.index') }}" class="btn btn-outline-secondary btn-round ms-auto">
+                        <h4 class="card-title">Form Input Landing</h4>
+                        <a href="{{ route('landing.manage') }}" class="btn btn-outline-secondary btn-round ms-auto">
                             <i class="fa fa-arrow-left"></i>
                             Back
                         </a>
                     </div>
                 </div>
-                <form action="{{ route('jadwal.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('landing.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="card-body">
                         <div class="row align-items-center g-4">
+                            <div class="col-md-12">
+                                <label for="description" class="form-label">Description</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="fa fa-align-left"></i>
+                                    </span>
+                                    <input type="text" name="description" id="description"
+                                        value="{{ old('description') }}"
+                                        class="form-control @error('description') is-invalid @enderror"
+                                        placeholder="Description" autofocus>
+
+                                    @error('description')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="col-md-4">
-                                <label for="hari" class="form-label">Hari</label>
+                                <label for="full_image" class="form-label">Full Image</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
-                                        <i class="fas fa-calendar-alt"></i>
+                                        <i class="fa fa-image"></i>
                                     </span>
-                                    <input type="text" name="hari" id="hari" value="{{ old('hari') }}"
-                                        class="form-control @error('hari') is-invalid @enderror" placeholder="Hari"
-                                        autofocus>
-
-                                    @error('hari')
+                                    <input type="file" name="full_image" id="full_image"
+                                        class="form-control @error('full_image') is-invalid @enderror"
+                                        onchange="previewImage(event, 'full_image_preview')">
+                                    <img id="full_image_preview" src="#" alt="Full Image Preview"
+                                        style="display:none; max-width: 100%; margin-top: 10px;" />
+                                    @error('full_image')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
@@ -59,55 +79,37 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="waktuMulai" class="form-label">Waktu Mulai</label>
+                            <div class="col-md-4">
+                                <label for="description_image" class="form-label">Description Image</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
-                                        <i class="fa fa-clock"></i>
+                                        <i class="fa fa-image"></i>
                                     </span>
-                                    <input type="time" name="waktuMulai" id="waktuMulai" value="{{ old('waktuMulai') }}"
-                                        class="form-control @error('waktuMulai') is-invalid @enderror">
-
-                                    @error('waktuMulai')
+                                    <input type="file" name="description_image" id="description_image"
+                                        class="form-control @error('description_image') is-invalid @enderror"
+                                        onchange="previewImage(event, 'description_image_preview')">
+                                    <img id="description_image_preview" src="#" alt="Description Image Preview"
+                                        style="display:none; max-width: 100%; margin-top: 10px;" />
+                                    @error('description_image')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <label for="waktuSelesai" class="form-label">Waktu Selesai</label>
+
+                            <div class="col-md-4">
+                                <label for="room_image" class="form-label">Room Image</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
-                                        <i class="fa fa-clock"></i>
+                                        <i class="fa fa-image"></i>
                                     </span>
-                                    <input type="time" name="waktuSelesai" id="waktuSelesai"
-                                        value="{{ old('waktuSelesai') }}"
-                                        class="form-control @error('waktuSelesai') is-invalid @enderror">
-
-                                    @error('waktuSelesai')
-                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="status" class="form-label">Status</label>
-                                <div class="input-icon">
-                                    <span class="input-icon-addon">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </span>
-                                    <select name="status" id="status"
-                                        class="form-control @error('status') is-invalid @enderror"
-                                        placeholder="Nama Ruangan">
-                                        <option selected disabled>--Pilih--
-                                        </option>
-                                        <option value="Tersedia">Tersedia</option>
-                                        <option value="Tidak Tersedia">Tidak Tersedia</option>
-                                    </select>
-
-                                    @error('status')
+                                    <input type="file" name="room_image" id="room_image"
+                                        class="form-control @error('room_image') is-invalid @enderror"
+                                        onchange="previewImage(event, 'room_image_preview')">
+                                    <img id="room_image_preview" src="#" alt="Room Image Preview"
+                                        style="display:none; max-width: 100%; margin-top: 10px;" />
+                                    @error('room_image')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
@@ -131,4 +133,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function previewImage(event, previewId) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById(previewId);
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 @endsection

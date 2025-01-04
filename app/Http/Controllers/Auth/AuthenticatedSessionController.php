@@ -31,14 +31,15 @@ class AuthenticatedSessionController extends Controller
 
         $role = Auth::user()->getRoleNames()->first();
 
-        if ($role == 'Administrator') {
-            return redirect()->intended(RouteServiceProvider::HOME);
-        } elseif ($role == 'Perlengkapan') {
-            return redirect()->intended(RouteServiceProvider::HOME);
-        } elseif ($role == 'Costumer') {
-            return redirect()->route('pengajuan.booking');
-        } else {
-            return redirect('/');
+        switch ($role) {
+            case 'Administrator':
+                return redirect()->intended(RouteServiceProvider::HOME);
+            case 'Perlengkapan':
+                return redirect()->intended(RouteServiceProvider::HOME);
+            case 'Costumer':
+                return redirect()->route('costumer.formBoking');
+            default:
+                return redirect('/');
         }
     }
 

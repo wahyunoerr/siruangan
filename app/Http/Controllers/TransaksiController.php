@@ -14,7 +14,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksi = Transaksi::with('ruangan', 'booking', 'jadwal', 'user', 'event')->get();
+        $transaksi = Transaksi::with('ruangan', 'booking', 'user', 'event')->get();
         return view('pages.transaksi.index', compact('transaksi'));
     }
 
@@ -40,14 +40,14 @@ class TransaksiController extends Controller
 
     public function printInvoice($id)
     {
-        $transaksi = Transaksi::with(['user', 'event', 'ruangan', 'jadwal'])->findOrFail($id);
+        $transaksi = Transaksi::with(['user', 'event', 'ruangan'])->findOrFail($id);
         return view('pages.transaksi.invoice', compact('transaksi'));
     }
 
     public function printUserInvoice($bookingId)
     {
         $booking = Booking::with(['transaksi' => function ($query) {
-            $query->with(['event', 'ruangan', 'jadwal', 'user']);
+            $query->with(['event', 'ruangan', 'user']);
         }])
             ->where('user_id', '=', auth()->id())
             ->where('id', $bookingId)
@@ -56,15 +56,11 @@ class TransaksiController extends Controller
         if ($booking && $booking->transaksi) {
             $transaksi = $booking->transaksi;
         } else {
-            return redirect()->route('booking.index')->with('error', 'Invoice tidak ditemukan.');
+            return redirect()->route('pengajuan.booking')->with('warning', 'Invoice belum bisa dicetak karna menunggu persetujuan admin');
         }
 
         return view('pages.booking.costumer.invoice', compact('transaksi'));
     }
-
-
-
-
 
     /**
      * Show the form for creating a new resource.

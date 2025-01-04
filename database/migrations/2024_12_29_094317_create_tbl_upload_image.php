@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jadwals', function (Blueprint $table) {
+        Schema::create('tbl_upload_image', function (Blueprint $table) {
             $table->id();
-            $table->string('day', 100);
-            $table->time('waktuMulai');
-            $table->time('waktuSelesai');
-            $table->enum('status', ['Tersedia', 'Tidak Tersedia']);
+            $table->unsignedBigInteger('ruangan_id');
+            $table->json('images');
             $table->timestamps();
+
+            $table->foreign('ruangan_id')->references('id')->on('ruangans')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jadwals');
+        Schema::dropIfExists('tbl_upload_image');
     }
 };

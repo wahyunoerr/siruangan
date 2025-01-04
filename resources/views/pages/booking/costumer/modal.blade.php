@@ -10,9 +10,28 @@
                 <form action="{{ route('upload.bukti', $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="buktiTransaksi{{ $item->id }}" class="form-label">Pilih Berkas</label>
+                        <label for="buktiTransaksi{{ $item->id }}" class="form-label">Upload Bukti Transaksi</label>
                         <input type="file" name="buktiTransaksi" id="buktiTransaksi{{ $item->id }}"
                             class="form-control" required>
+                        <div class="md-12">
+                            <div class="alert alert-primary" role="alert">
+                                <h5 class="alert heading">No Rekening</h5>
+                                <div class="col-md-7">
+                                    <ul>
+                                        <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
+                                        </li>
+                                        <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
+                                        </li>
+                                        <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
+                                        </li>
+                                        <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
+                                        </li>
+                                        <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Upload</button>
                 </form>

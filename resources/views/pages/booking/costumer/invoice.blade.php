@@ -108,7 +108,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo">
+            <img src="{{ asset('assets/logo_umri.png') }}" alt="Logo">
             <h1>Invoice User - {{ $transaksi->user->name }}</h1>
         </div>
 
@@ -129,8 +129,8 @@
                 </tr>
                 <tr>
                     <th>Jadwal</th>
-                    <td>{{ $transaksi->jadwal->day }} - {{ $transaksi->jadwal->waktuMulai }} s.d
-                        {{ $transaksi->jadwal->waktuSelesai }}</td>
+                    <td>{{ $transaksi->booking->jadwal_day }} - {{ $transaksi->booking->jadwal_start_time }} s.d
+                        {{ $transaksi->booking->jadwal_end_time }}</td>
                 </tr>
                 <tr>
                     <th>Tanggal Booking</th>

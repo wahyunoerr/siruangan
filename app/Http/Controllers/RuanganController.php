@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ruangan;
+use App\Models\UploadImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,18 +39,39 @@ class RuanganController extends Controller
         $request->validate([
             'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
-            'thumbnail' => 'required|mimes:png,jpg,jpeg',
-            'status' => 'required|in:Sudah Dibooking,Belum Dibooking'
+            'images.*' => 'nullable|mimes:png,jpg,jpeg',
+            'status' => 'required|in:Sudah Dibooking,Belum Dibooking',
+            'keterangan' => 'nullable|string',
+            'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
         ]);
 
-        $file = $request->file('thumbnail');
-        $imageName = time() . '_' . $file->getClientOriginalName();
+        $images = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $imageName = time() . '_' . $file->getClientOriginalName();
+                $images[] = $file->storeAs('upload/image', $imageName, 'public');
+            }
+        }
 
-        Ruangan::create([
+        $videoPath = null;
+        if ($request->hasFile('videos')) {
+            $videoFile = $request->file('videos');
+            $videoName = time() . '_' . $videoFile->getClientOriginalName();
+            $videoPath = $videoFile->storeAs('upload/videos', $videoName, 'public');
+        }
+
+        $ruangan = Ruangan::create([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public'),
-            'status' => $request->status
+            'status' => $request->status,
+            'keterangan' => $request->keterangan,
+            'videos' => $videoPath,
+            'images' => json_encode($images)
+        ]);
+
+        UploadImage::create([
+            'ruangan_id' => $ruangan->id,
+            'images' => json_encode($images)
         ]);
 
         return redirect()->route('ruangan.index')
@@ -70,8 +92,10 @@ class RuanganController extends Controller
     public function edit(string $id)
     {
         $ruangan = Ruangan::findOrFail($id);
+        $uploadImage = UploadImage::where('ruangan_id', $ruangan->id)->first();
+        $existingImages = json_decode($uploadImage->images, true) ?? [];
 
-        return view('pages.ruangan.edit', compact('ruangan'));
+        return view('pages.ruangan.edit', compact('ruangan', 'existingImages'));
     }
 
     /**
@@ -79,23 +103,50 @@ class RuanganController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $ruangan = Ruangan::findOrFail($id);
-
         $request->validate([
-            'kd_ruangan' => 'sometimes|unique:ruangans,kd_ruangan,' . $id . '|min:5|max:25',
-            'nama_ruangan' => 'sometimes|string|min:1',
-            'thumbnail' => 'required|mimes:png,jpg,jpeg',
-            'status' => 'required|in:Sudah Dibooking,Belum Dibooking'
+            'kd_ruangan' => 'required|min:5|max:25|unique:ruangans,kd_ruangan,' . $id,
+            'nama_ruangan' => 'required|string|min:1',
+            'images.*' => 'nullable|mimes:png,jpg,jpeg',
+            'status' => 'required|in:Sudah Dibooking,Belum Dibooking',
+            'keterangan' => 'nullable|string',
+            'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
         ]);
 
-        $file = $request->file('thumbnail');
-        $imageName = time() . '_' . $file->getClientOriginalName();
+        $ruangan = Ruangan::findOrFail($id);
+
+        if ($request->hasFile('images')) {
+            $existingImages = json_decode($ruangan->images, true);
+            foreach ($existingImages as $image) {
+                Storage::disk('public')->delete($image);
+            }
+            $images = [];
+            foreach ($request->file('images') as $file) {
+                $imageName = time() . '_' . $file->getClientOriginalName();
+                $images[] = $file->storeAs('upload/image', $imageName, 'public');
+            }
+        } else {
+            $images = json_decode($ruangan->images, true);
+        }
+
+        $videoPath = $ruangan->videos;
+        if ($request->hasFile('videos')) {
+            $videoFile = $request->file('videos');
+            $videoName = time() . '_' . $videoFile->getClientOriginalName();
+            $videoPath = $videoFile->storeAs('upload/videos', $videoName, 'public');
+        }
 
         $ruangan->update([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'thumbnail' => $file->storeAs('upload/image', $imageName, 'public'),
-            'status' => $request->status
+            'status' => $request->status,
+            'keterangan' => $request->keterangan,
+            'videos' => $videoPath,
+            'images' => json_encode($images)
+        ]);
+
+        $uploadImage = UploadImage::where('ruangan_id', $ruangan->id)->first();
+        $uploadImage->update([
+            'images' => json_encode($images)
         ]);
 
         return redirect()->route('ruangan.index')
@@ -109,7 +160,10 @@ class RuanganController extends Controller
     {
         $ruangan = Ruangan::findOrFail($id);
 
-        Storage::disk('public')->delete('upload/image', $ruangan->thumbnail);
+        $images = UploadImage::where('ruangan_id', $ruangan->id)->first();
+        foreach (json_decode($images->images) as $image) {
+            Storage::disk('public')->delete($image);
+        }
 
         $ruangan->delete();
 

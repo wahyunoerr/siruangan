@@ -29,8 +29,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center">
-                        <h4 class="card-title">Ruangan Edit</h4>
-
+                        <h4 class="card-title">Form Edit Ruangan</h4>
                         <a href="{{ route('ruangan.index') }}" class="btn btn-outline-secondary btn-round ms-auto">
                             <i class="fa fa-arrow-left"></i>
                             Back
@@ -40,6 +39,7 @@
                 <form action="{{ route('ruangan.update', $ruangan->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
                     <div class="card-body">
                         <div class="row align-items-center g-4">
                             <div class="col-md-4">
@@ -51,7 +51,7 @@
                                     <input type="text" name="kd_ruangan" id="kd_ruangan"
                                         value="{{ old('kd_ruangan', $ruangan->kd_ruangan) }}"
                                         class="form-control @error('kd_ruangan') is-invalid @enderror"
-                                        placeholder="Kode Ruangan">
+                                        placeholder="Kode Ruangan" autofocus>
 
                                     @error('kd_ruangan')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
@@ -88,15 +88,13 @@
                                     </span>
                                     <select name="status" id="status"
                                         class="form-control @error('status') is-invalid @enderror">
-                                        <option disabled selected>-- Pilih --</option>
+                                        <option value="" disabled>-- Pilih --</option>
                                         <option value="Sudah Dibooking"
                                             {{ old('status', $ruangan->status) == 'Sudah Dibooking' ? 'selected' : '' }}>
-                                            Sudah Dibooking
-                                        </option>
+                                            Sudah Dibooking</option>
                                         <option value="Belum Dibooking"
                                             {{ old('status', $ruangan->status) == 'Belum Dibooking' ? 'selected' : '' }}>
-                                            Belum Dibooking
-                                        </option>
+                                            Belum Dibooking</option>
                                     </select>
 
                                     @error('status')
@@ -107,20 +105,44 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label for="thumbnail" class="form-label">Foto Ruangan</label>
+                                <label for="images" class="form-label">Foto Ruangan</label>
                                 <div class="input-icon">
-                                    <input type="file" name="thumbnail" id="thumbnail"
-                                        value="{{ old($ruangan->thumbnail ?? '') }}"
-                                        class="form-control @error('thumbnail') is-invalid @enderror"
-                                        placeholder="Foto Ruangan">
+                                    <span class="input-icon-addon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <input type="file" name="images[]" id="images" multiple
+                                        class="form-control @error('images.*') is-invalid @enderror"
+                                        placeholder="Foto Ruangan" onchange="previewImages()">
 
-                                    @if (!empty($ruangan->thumbnail))
-                                        <div class="form-text mt-2">
-                                            File saat ini: {{ $ruangan->thumbnail }}
-                                        </div>
-                                    @endif
+                                    @error('images.*')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                                <div id="imagePreview" class="mt-3 d-flex flex-wrap gap-2"></div>
+                            </div>
 
-                                    @error('thumbnail')
+                            <div class="col-md-12">
+                                <label for="existing_images" class="form-label">Existing Images</label>
+                                <div id="existing_images" class="d-flex flex-wrap gap-2">
+                                    @foreach ($existingImages as $image)
+                                        <img src="{{ asset('storage/' . $image) }}" height="100" class="me-2 mb-2">
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="videos" class="form-label">Video Ruangan</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <input type="file" name="videos" id="videos"
+                                        class="form-control @error('videos') is-invalid @enderror"
+                                        placeholder="Video Ruangan">
+
+                                    @error('videos')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
@@ -128,6 +150,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-12">
+                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
+                                    placeholder="Keterangan">{{ old('keterangan', $ruangan->keterangan) }}</textarea>
+                                @error('keterangan')
+                                    <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
 
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -145,4 +177,33 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImages() {
+            var preview = document.querySelector('#imagePreview');
+            preview.innerHTML = '';
+            if (this.files) {
+                [].forEach.call(this.files, readAndPreview);
+            }
+
+            function readAndPreview(file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)) {
+                    return alert(file.name + " is not an image");
+                }
+
+                var reader = new FileReader();
+                reader.addEventListener("load", function() {
+                    var image = new Image();
+                    image.height = 100;
+                    image.title = file.name;
+                    image.src = this.result;
+                    image.classList.add('me-2', 'mb-2');
+                    preview.appendChild(image);
+                });
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.querySelector('#images').addEventListener("change", previewImages);
+    </script>
 @endsection

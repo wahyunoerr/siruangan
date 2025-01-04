@@ -14,15 +14,15 @@ class Ruangan extends Model
 
     protected $guarded = ['id'];
 
-    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'thumbnail', 'status'];
+    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'status', 'keterangan', 'videos'];
 
     /**
-     * Get all of the penjadwalanruangan for the Ruangan
+     * Get all of the images for the Ruangan
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function penjadwalanruangan(): HasMany
+    public function images(): HasMany
     {
-        return $this->hasMany(PenjadwalanRuangan::class, 'ruangan_id', 'id');
+        return $this->hasMany(UploadImage::class, 'ruangan_id', 'id');
     }
 }

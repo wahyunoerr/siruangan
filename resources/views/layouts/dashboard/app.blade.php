@@ -21,10 +21,10 @@
             <div class="sidebar-logo">
 
                 <!-- Logo Header -->
-                <div class="logo-header" data-background-color="purple2">
+                <div class="logo-header" data-background-color="white">
                     <a href="index.html" class="logo">
-                        <img src="{{ asset('assets/dashboard/img/kaiadmin/logo_light.svg') }}" alt="navbar brand"
-                            class="navbar-brand" height="20" />
+                        <img src="{{ asset('assets/logo_umri.png') }}" alt="navbar brand" class="navbar-brand"
+                            height="50px" />
                     </a>
                     <div class="nav-toggle">
                         <button class="btn btn-toggle toggle-sidebar">

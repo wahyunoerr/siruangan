@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
@@ -25,9 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(LandingController::class)->group(function () {
     Route::get('/', 'index')->name('landing');
     Route::get('/q', 'search')->name('ruangan.search');
+    Route::get('/manage', 'manage')->name('landing.manage');
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -72,19 +71,30 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
             Route::get('/transaksi/invoice/{id}', 'printInvoice')->name('transaksi.printInvoice');
         });
     });
+
+    Route::controller(LandingController::class)->prefix('landing')->group(function () {
+        Route::get('/create', 'create')->name('landing.create');
+        Route::post('/store', 'store')->name('landing.store');
+        Route::get('/edit/{id}', 'edit')->name('landing.edit');
+        Route::put('/update/{id}', 'update')->name('landing.update');
+        Route::delete('/destroy/{id}', 'destroy')->name('landing.destroy');
+        Route::get('/manage', 'manage')->name('landing.manage');
+    });
 });
 
 
 Route::middleware(['auth', 'role:Administrator|Perlengkapan'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->middleware(['auth', 'verified'])->name('dashboard');
+        Route::get('/dashboard/filter', [DashboardController::class, 'filter'])->name('dashboard.filter');
+    });
 
     Route::controller(BookingController::class)->group(function () {
         Route::prefix('dataBooking')->group(function () {
             Route::get('/', 'dataBooking')->name('admin.dataBooking');
             Route::post('/{id}/update-status', 'updateStatus')->name('dataBooking.status');
-            Route::post('/orders', 'store');
+            Route::get('/periodeCetak', 'periodeCetak')->name('listPeriode.cetak');
+            Route::get('/q', 'tableCetak')->name('admin.listCetakBooking');
         });
     });
 });
@@ -98,21 +108,14 @@ Route::middleware(['auth', 'role:Perlengkapan'])->group(function () {
         Route::put('/update/{id}', 'update')->name('ruangan.update');
         Route::delete('/destroy/{id}', 'destroy')->name('ruangan.destroy');
     });
-    Route::controller(JadwalController::class)->prefix('jadwal')->group(function () {
-        Route::get('/index', 'index')->name('jadwal.index');
-        Route::get('/create', 'create')->name('jadwal.create');
-        Route::post('/store', 'store')->name('jadwal.store');
-        Route::get('/edit/{id}', 'edit')->name('jadwal.edit');
-        Route::put('/update/{id}', 'update')->name('jadwal.update');
-        Route::delete('/destroy/{id}', 'destroy')->name('jadwal.destroy');
-    });
 });
 
 Route::middleware(['auth', 'role:Costumer'])->group(function () {
     Route::controller(BookingController::class)->group(function () {
         Route::prefix('booking')->group(function () {
+            Route::get('/', 'bokingCostumerIndex')->name('costumer.formBoking');
             Route::get('/pengajuan', 'bokingCostumer')->name('costumer.boking');
-            Route::post('/costumer/save', 'simpanBokingCostumer')->name('booking.save');
+            Route::post('/save', 'simpanBokingCostumer')->name('booking.save');
         });
 
         Route::prefix('booking-costumer')->group(function () {

@@ -54,16 +54,6 @@ class Transaksi extends Model
         return $this->belongsTo(Event::class);
     }
 
-    /**
-     * Get the jadwal that owns the Transaksi
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function jadwal(): BelongsTo
-    {
-        return $this->belongsTo(Jadwal::class);
-    }
-
 
     /**
      * Get the user that owns the Transaksi
