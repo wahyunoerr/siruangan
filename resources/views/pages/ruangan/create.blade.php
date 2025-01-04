@@ -78,26 +78,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
-                                <label for="status" class="form-label">Status Ruangan</label>
-                                <div class="input-icon">
-                                    <span class="input-icon-addon">
-                                        <i class="far fa-bell"></i>
-                                    </span>
-                                    <select name="status" id="status"
-                                        class="form-control @error('status') is-invalid @enderror">
-                                        <option value="" disabled selected>-- Pilih --</option>
-                                        <option value="Sudah Dibooking">Sudah Diboking</option>
-                                        <option value="Belum Dibooking">Belum Diboking</option>
-                                    </select>
-
-                                    @error('status')
-                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
-                                            {{ $message }}
-                                        </small>
-                                    @enderror
-                                </div>
-                            </div>
                             <div class="col-md-12">
                                 <label for="images" class="form-label">Foto Ruangan</label>
                                 <div class="input-icon">

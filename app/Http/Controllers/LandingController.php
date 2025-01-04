@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Event;
 use App\Models\Ruangan;
 use App\Models\Landing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class LandingController extends Controller
 {
@@ -28,7 +30,15 @@ class LandingController extends Controller
             }
         }
 
-        return view('welcome', compact('ruangan', 'event', 'landings', 'carouselImages'));
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+        $weeklyBookings = Booking::with(['ruangan', 'event'])
+            ->whereBetween('tanggal_booking', [$startOfWeek, $endOfWeek])
+            ->where('status', 'setujui')
+            ->take(10)
+            ->get();
+
+        return view('welcome', compact('ruangan', 'event', 'landings', 'carouselImages', 'weeklyBookings'));
     }
 
     public function create()

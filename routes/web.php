@@ -4,7 +4,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LandingController;
-use App\Http\Controllers\PenjadwalanRuanganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\TransaksiController;
@@ -43,16 +42,6 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
         Route::put('/update/{id}', 'update')->name('user.update');
         Route::put('/update-password/{id}', 'updatePassword')->name('user.update-password');
         Route::delete('/destroy/{id}', 'destroy')->name('user.destroy');
-    });
-
-
-    Route::controller(PenjadwalanRuanganController::class)->prefix('penjadwalan')->group(function () {
-        Route::get('/index', 'index')->name('penjadwalan.index');
-        Route::get('/create', 'create')->name('penjadwalan.create');
-        Route::post('/store', 'store')->name('penjadwalan.store');
-        Route::get('/edit/{id}', 'edit')->name('penjadwalan.edit');
-        Route::put('/update/{id}', 'update')->name('penjadwalan.update');
-        Route::delete('/destroy/{id}', 'destroy')->name('penjadwalan.destroy');
     });
 
     Route::controller(EventController::class)->prefix('event')->group(function () {

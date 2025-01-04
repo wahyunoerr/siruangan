@@ -41,7 +41,6 @@
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
                                     <th>Video Ruangan</th>
-                                    <th>Status Ruangan</th>
                                     <th>Keterangan</th>
                                     <th width="10%">Action</th>
                                 </tr>
@@ -151,15 +150,6 @@
                                                 <span class="badge badge-danger">No Video</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            @if ($ruangan->status == 'Sudah Dibooking')
-                                                <span class="badge badge-success">Sudah Dibooking</span>
-                                            @elseif ($ruangan->status == 'Belum Dibooking')
-                                                <span class="badge badge-warning">Belum Dibooking</span>
-                                            @else
-                                                <span class="badge badge-danger">Data booking tidak ditemukan</span>
-                                            @endif
-                                        </td>
                                         <td>{{ $ruangan->keterangan }}</td>
                                         <td>
                                             <div class="form-button-action">
@@ -187,7 +177,6 @@
                                     <th>Nama Ruangan</th>
                                     <th>Foto Ruangan</th>
                                     <th>Video Ruangan</th>
-                                    <th>Status Ruangan</th>
                                     <th>Keterangan</th>
                                     <th>Action</th>
                                 </tr>

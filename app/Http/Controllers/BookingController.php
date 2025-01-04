@@ -92,7 +92,9 @@ class BookingController extends Controller
             ->exists();
 
         if ($isBooked) {
-            return redirect()->back()->withErrors(['tanggal_booking' => 'Jadwal dan ruangan ini sudah dibooking untuk tanggal tersebut.']);
+            return redirect()->route('costumer.formBoking')->withErrors(
+                ['tanggal_booking' => 'Tanggal sudah diboking di jam yang sama']
+            );
         }
 
         $imageName = null;

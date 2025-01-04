@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('kd_ruangan', 100);
             $table->string('nama_ruangan', 100);
-            $table->enum('status', ['Sudah Dibooking', 'Belum Dibooking']);
             $table->text('keterangan')->nullable();
             $table->text('videos')->nullable();
             $table->timestamps();

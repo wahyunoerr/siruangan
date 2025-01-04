@@ -40,7 +40,6 @@ class RuanganController extends Controller
             'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
             'images.*' => 'nullable|mimes:png,jpg,jpeg',
-            'status' => 'required|in:Sudah Dibooking,Belum Dibooking',
             'keterangan' => 'nullable|string',
             'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
         ]);
@@ -63,7 +62,6 @@ class RuanganController extends Controller
         $ruangan = Ruangan::create([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'status' => $request->status,
             'keterangan' => $request->keterangan,
             'videos' => $videoPath,
             'images' => json_encode($images)
@@ -107,7 +105,6 @@ class RuanganController extends Controller
             'kd_ruangan' => 'required|min:5|max:25|unique:ruangans,kd_ruangan,' . $id,
             'nama_ruangan' => 'required|string|min:1',
             'images.*' => 'nullable|mimes:png,jpg,jpeg',
-            'status' => 'required|in:Sudah Dibooking,Belum Dibooking',
             'keterangan' => 'nullable|string',
             'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
         ]);
@@ -138,7 +135,6 @@ class RuanganController extends Controller
         $ruangan->update([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
-            'status' => $request->status,
             'keterangan' => $request->keterangan,
             'videos' => $videoPath,
             'images' => json_encode($images)

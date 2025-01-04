@@ -28,6 +28,15 @@
         <h3 class="text-center mb-4">Isi Form Booking</h3>
         <div class="card animate__animated animate__fadeInUp">
             <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger animate__animated animate__shakeX">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form action="{{ route('booking.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="ruangan_id" id="ruangan_id">

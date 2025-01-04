@@ -134,12 +134,12 @@
         </div>
     </section>
 
-    <section id="schedule" class="container mt-5 animate-bottom scroll-offset scroll-animate">
+    <section id="weekly-booking" class="container mt-5 animate-bottom scroll-offset scroll-animate">
         <div class="card">
             <div class="card-body">
-                <h2 class="card-title">Jadwal Ruangan</h2>
+                <h2 class="card-title">Booking Minggu Ini</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped mt-3" id="scheduleTable">
+                    <table class="table table-striped mt-3">
                         <thead>
                             <tr>
                                 <th scope="col">Hari</th>
@@ -149,34 +149,29 @@
                                 <th scope="col">Kegiatan</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Rabu</td>
-                                <td>01/11/2023</td>
-                                <td>08:00 - 10:00</td>
-                                <td>Ruang A</td>
-                                <td>Seminar Teknologi</td>
-                            </tr>
-                            <tr>
-                                <td>Kamis</td>
-                                <td>02/11/2023</td>
-                                <td>10:00 - 12:00</td>
-                                <td>Ruang B</td>
-                                <td>Workshop Kewirausahaan</td>
-                            </tr>
-                            <tr>
-                                <td>Jumat</td>
-                                <td>03/11/2023</td>
-                                <td>13:00 - 15:00</td>
-                                <td>Ruang C</td>
-                                <td>Program Tahfidz Al-Qur'an</td>
-                            </tr>
+                        <tbody id="scheduleTable">
+                            @if ($weeklyBookings->isNotEmpty())
+                                @foreach ($weeklyBookings as $schedule)
+                                    <tr>
+                                        <td>{{ $schedule->jadwal_day }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($schedule->tanggal_booking)->translatedFormat('d F Y') }}
+                                        </td>
+                                        <td>{{ $schedule->jadwal_start_time }} sd {{ $schedule->jadwal_end_time }}
+                                        </td>
+                                        <td>{{ $schedule->ruangan->nama_ruangan }}</td>
+                                        <td>{{ $schedule->event->name }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="5">No bookings available for this week.</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
-                    <nav>
-                        <ul class="pagination justify-content-center" id="pagination">
-                        </ul>
-                    </nav>
+                </div>
+                <div class="pagination-container">
+                    <ul id="pagination" class="pagination justify-content-center"></ul>
                 </div>
             </div>
         </div>
@@ -273,8 +268,8 @@
                 scale = 1;
                 $('#previewImage').css('transform', 'scale(1)');
             });
-            const rowsPerPage = 5;
-            const rows = $('#scheduleTable tbody tr');
+            const rowsPerPage = 10;
+            const rows = $('#scheduleTable tr');
             const rowsCount = rows.length;
             const pageCount = Math.ceil(rowsCount / rowsPerPage);
             const pagination = $('#pagination');
