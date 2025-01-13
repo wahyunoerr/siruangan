@@ -3,7 +3,7 @@
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('dataBooking.status', $booking->id) }}" method="POST">
+                <form action="{{ route('transaksi.inputDp', $booking->id) }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="dpModalLabel{{ $booking->id }}">Input Jumlah DP</h5>

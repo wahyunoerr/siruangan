@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('kd_ruangan', 100);
             $table->string('nama_ruangan', 100);
+            $table->string('kapasitas', 100);
+            $table->string('jamPenyewaan', 100);
             $table->text('keterangan')->nullable();
             $table->text('videos')->nullable();
             $table->timestamps();

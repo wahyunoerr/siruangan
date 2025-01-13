@@ -16,14 +16,4 @@ class Event extends Model
         'name',
         'harga',
     ];
-
-    /**
-     * Get all of the penjadwalruangan for the Event
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function penjadwalruangan(): HasMany
-    {
-        return $this->hasMany(PenjadwalanRuangan::class, 'event_id', 'id');
-    }
 }

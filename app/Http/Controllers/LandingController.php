@@ -76,7 +76,8 @@ class LandingController extends Controller
     public function edit($id)
     {
         $landing = Landing::findOrFail($id);
-        return view('setting-landing.edit', compact('landing'));
+        $existingImages = Landing::all();
+        return view('pages.setting-landing.edit', compact('landing', 'existingImages'));
     }
 
     public function update(Request $request, $id)

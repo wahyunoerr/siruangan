@@ -62,6 +62,29 @@ class TransaksiController extends Controller
         return view('pages.booking.costumer.invoice', compact('transaksi'));
     }
 
+    public function inputDp(Request $request, $id)
+    {
+        $request->validate([
+            'dp' => 'required|numeric',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        $dp = $request->input('dp');
+        $sisaPelunasan = $booking->event->harga - $dp;
+
+        Transaksi::create([
+            'booking_id' => $booking->id,
+            'user_id' => $booking->user_id,
+            'event_id' => $booking->event_id,
+            'ruangan_id' => $booking->ruangan_id,
+            'dp' => $dp,
+            'sisaPelunasan' => $sisaPelunasan,
+            'status' => $sisaPelunasan <= 0 ? 'Lunas' : 'Belum Lunas',
+        ]);
+
+        return redirect()->route('transaksi')->with('success', 'DP berhasil diinput.');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

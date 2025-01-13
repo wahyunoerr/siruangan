@@ -58,6 +58,7 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
             Route::get('/', 'index')->name('transaksi');
             Route::post('/upload-bukti/{id}', 'uploadBukti')->name('transaksi.uploadBukti');
             Route::get('/transaksi/invoice/{id}', 'printInvoice')->name('transaksi.printInvoice');
+            Route::post('/input-dp/{id}', 'inputDp')->name('transaksi.inputDp');
         });
     });
 
@@ -105,6 +106,7 @@ Route::middleware(['auth', 'role:Costumer'])->group(function () {
             Route::get('/', 'bokingCostumerIndex')->name('costumer.formBoking');
             Route::get('/pengajuan', 'bokingCostumer')->name('costumer.boking');
             Route::post('/save', 'simpanBokingCostumer')->name('booking.save');
+            Route::post('/upload-bukti/{id}', 'uploadBukti')->name('booking.uploadBukti');
         });
 
         Route::prefix('booking-costumer')->group(function () {

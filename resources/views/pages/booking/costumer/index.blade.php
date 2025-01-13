@@ -41,8 +41,6 @@
                                                 <span class="badge badge-warning">Menunggu</span>
                                             @elseif ($item->status == 'tolak')
                                                 <span class="badge badge-danger">Ditolak</span>
-                                            @elseif ($item->status == 'setujui' && !$item->buktiTransaksi)
-                                                <span class="badge badge-warning">Upload Bukti Transaksi Anda</span>
                                             @elseif ($item->status == 'setujui')
                                                 <span class="badge badge-success">Disetujui</span>
                                             @endif

@@ -59,7 +59,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <label for="nama_ruangan" class="form-label">Nama Ruangan</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
@@ -71,6 +71,23 @@
                                         placeholder="Nama Ruangan">
 
                                     @error('nama_ruangan')
+                                        <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                            {{ $message }}
+                                        </small>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="kapasitas" class="form-label">Kapasitas</label>
+                                <div class="input-icon">
+                                    <span class="input-icon-addon">
+                                        <i class="fa fa-building"></i>
+                                    </span>
+                                    <input type="text" name="kapasitas" id="kapasitas" value="{{ old('kapasitas') }}"
+                                        class="form-control @error('kapasitas') is-invalid @enderror"
+                                        placeholder="Kapasitas">
+
+                                    @error('kapasitas')
                                         <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                             {{ $message }}
                                         </small>
@@ -97,7 +114,7 @@
                                 <div id="imagePreview" class="mt-3 d-flex flex-wrap gap-2"></div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="videos" class="form-label">Video Ruangan</label>
                                 <div class="input-icon">
                                     <span class="input-icon-addon">
@@ -115,10 +132,22 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6">
+                                <label for="jam_penyewaan" class="form-label">Jam Penyewaan</label>
+                                <input type="name" name="jam_penyewaan" id="jam_penyewaan"
+                                    class="form-control @error('jam_penyewaan') is-invalid @enderror"
+                                    placeholder="Jam Penyewaan" value="{{ old('jam_penyewaan') }}">
+                                @error('jam_penyewaan')
+                                    <small id="emailHelp" class="form-text text-muted my-1 text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+
                             <div class="col-md-12">
-                                <label for="keterangan" class="form-label">Keterangan</label>
+                                <label for="keterangan" class="form-label">Fasilitas</label>
                                 <textarea name="keterangan" id="keterangan" class="form-control @error('keterangan') is-invalid @enderror"
-                                    placeholder="Keterangan">{{ old('keterangan') }}</textarea>
+                                    placeholder="Fasilitas">{{ old('keterangan') }}</textarea>
                                 @error('keterangan')
                                     <small id="emailHelp" class="form-text text-muted my-1 text-danger">
                                         {{ $message }}

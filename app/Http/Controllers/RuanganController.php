@@ -39,6 +39,8 @@ class RuanganController extends Controller
         $request->validate([
             'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
+            'jam_penyewaan' => 'required|string|min:1',
+            'kapasitas' => 'required|string|min:1',
             'images.*' => 'nullable|mimes:png,jpg,jpeg',
             'keterangan' => 'nullable|string',
             'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
@@ -62,6 +64,8 @@ class RuanganController extends Controller
         $ruangan = Ruangan::create([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
+            'jamPenyewaan' => $request->jam_penyewaan,
+            'kapasitas' => $request->kapasitas,
             'keterangan' => $request->keterangan,
             'videos' => $videoPath,
             'images' => json_encode($images)
@@ -102,8 +106,10 @@ class RuanganController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'kd_ruangan' => 'required|min:5|max:25|unique:ruangans,kd_ruangan,' . $id,
+            'kd_ruangan' => 'required|unique:ruangans,kd_ruangan|min:5|max:25',
             'nama_ruangan' => 'required|string|min:1',
+            'jam_penyewaan' => 'required|string|min:1',
+            'kapasitas' => 'required|string|min:1',
             'images.*' => 'nullable|mimes:png,jpg,jpeg',
             'keterangan' => 'nullable|string',
             'videos' => 'nullable|mimes:mp4,mov,avi|max:20000'
@@ -135,6 +141,8 @@ class RuanganController extends Controller
         $ruangan->update([
             'kd_ruangan' => $request->kd_ruangan,
             'nama_ruangan' => $request->nama_ruangan,
+            'jamPenyewaan' => $request->jam_penyewaan,
+            'kapasitas' => $request->kapasitas,
             'keterangan' => $request->keterangan,
             'videos' => $videoPath,
             'images' => json_encode($images)

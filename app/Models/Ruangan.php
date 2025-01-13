@@ -14,7 +14,7 @@ class Ruangan extends Model
 
     protected $guarded = ['id'];
 
-    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'keterangan', 'videos'];
+    protected $fillable = ['kd_ruangan', 'nama_ruangan', 'keterangan', 'videos', 'kapasitas', 'jamPenyewaan'];
 
     /**
      * Get all of the images for the Ruangan

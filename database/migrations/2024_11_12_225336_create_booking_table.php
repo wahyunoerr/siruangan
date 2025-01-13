@@ -23,7 +23,6 @@ return new class extends Migration
             $table->time('jadwal_start_time');
             $table->time('jadwal_end_time');
             $table->enum('jadwal_day', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']);
-            $table->unique(['tanggal_booking', 'ruangan_id']);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

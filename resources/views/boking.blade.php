@@ -97,34 +97,6 @@
                     </div>
 
                     <div class="mb-3">
-                        <div id="buktiTransaksi" style="display: none">
-                            <label for="buktiTransaksi" class="form-label">Bukti Transaksi <span
-                                    class="badge bg-warning">DP(50%)</span></label>
-                            <input type="file" class="form-control" name="buktiTransaksi" id="buktiTransaksi">
-
-                            <div class="md-12">
-                                <div class="alert alert-primary" role="alert">
-                                    <h5 class="alert heading">No Rekening</h5>
-                                    <div class="col-md-7">
-                                        <ul>
-                                            <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
-                                            </li>
-                                            <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
-                                            </li>
-                                            <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
-                                            </li>
-                                            <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
-                                            </li>
-                                            <li>BCA <span class="ms-2"> : <strong>999999999 A/N Nama</strong></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
                         <div id="fileUploadContainer" style="display: none;">
                             <label for="upload_file" class="form-label">Upload Kop Surat <span
                                     class="badge bg-info">.pdf
@@ -135,7 +107,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ url('/') }}" class="btn btn-secondary">Kembali</a>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
@@ -152,7 +124,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             var eventSelect = document.getElementById('event_id');
             var fileUploadContainer = document.getElementById('fileUploadContainer');
-            var fileUploadBukti = document.getElementById('buktiTransaksi');
 
             var eventsWithFileUpload = ['Tahfiz Quran', 'Seminar', 'Perpisahan Sekolah'];
 
@@ -163,11 +134,8 @@
                 if (eventsWithFileUpload.includes(selectedEventName)) {
                     fileUploadContainer.classList.add('animate__animated', 'animate__fadeIn');
                     fileUploadContainer.style.display = 'block';
-                    fileUploadBukti.style.display = 'none';
                 } else {
-                    fileUploadBukti.classList.add('animate__animated', 'animate__fadeIn');
                     fileUploadContainer.style.display = 'none';
-                    fileUploadBukti.style.display = 'block';
                 }
             });
         });

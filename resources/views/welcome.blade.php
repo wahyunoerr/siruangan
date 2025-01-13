@@ -22,7 +22,6 @@
                 <li class="nav-item"><a class="nav-link" href="#description">Deskripsi</a></li>
                 <li class="nav-item"><a class="nav-link" href="#details">Ruangan</a></li>
                 <li class="nav-item"><a class="nav-link" href="#schedule">Jadwal</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary" href="#booking">Booking Sekarang</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -35,6 +34,8 @@
                     @elseif(Auth::user()->hasRole('Costumer'))
                         <li class="nav-item"><a id="join-us" class="nav-link"
                                 href="{{ route('costumer.formBoking') }}">Booking Sekarang</a></li>
+                        <li class="nav-item"><a id="join-us" class="nav-link"
+                                href="{{ route('pengajuan.booking') }}">Dashboard</a></li>
                     @endif
                 @endguest
             </ul>
@@ -89,11 +90,19 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h2 class="card-title">Ruangan</h2>
-                        <p class="card-text mt-3"><strong>Kapasitas:</strong> 300 orang</p>
-                        <p class="card-text"><strong>Fasilitas:</strong> kursi dan meja, AC, speaker dan mic, smart tv,
-                            proyektor</p>
-                        <p class="card-text"><strong>Jam Penyewaan:</strong> 08.00-17.00</p>
+                        @forelse ($ruangan as $r)
+                            <h2 class="card-title">Ruangan</h2>
+                            <p class="card-text mt-3"><strong>Kapasitas:</strong> {{ $r->kapasitas }}</p>
+                            <p class="card-text"><strong>Fasilitas:</strong> {{ $r->keterangan }}</p>
+                            <p class="card-text"><strong>Jam Penyewaan:</strong> {{ $r->jamPenyewaan }}</p>
+                        @empty
+                            <h2 class="card-title">Ruangan</h2>
+                            <p class="card-text mt-3"><strong>Kapasitas:</strong> 300 orang</p>
+                            <p class="card-text"><strong>Fasilitas:</strong> kursi dan meja, AC, speaker dan mic, smart
+                                tv,
+                                proyektor</p>
+                            <p class="card-text"><strong>Jam Penyewaan:</strong> 08.00-17.00</p>
+                        @endforelse
                         <div class="row mt-3">
                             <div class="col-md-12 mt-3">
                                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

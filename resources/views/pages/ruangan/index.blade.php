@@ -39,6 +39,8 @@
                                     <th width="10%">No</th>
                                     <th>Kode Ruangan</th>
                                     <th>Nama Ruangan</th>
+                                    <th>Kapasitas</th>
+                                    <th>Jam Penyewaan</th>
                                     <th>Foto Ruangan</th>
                                     <th>Video Ruangan</th>
                                     <th>Keterangan</th>
@@ -53,6 +55,8 @@
                                             <span class="badge badge-secondary">{{ $ruangan->kd_ruangan }}</span>
                                         </td>
                                         <td>{{ $ruangan->nama_ruangan }}</td>
+                                        <td>{{ $ruangan->kapasitas }}</td>
+                                        <td>{{ $ruangan->jamPenyewaan }}</td>
                                         <td>
                                             @if ($ruangan->images->isNotEmpty())
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"

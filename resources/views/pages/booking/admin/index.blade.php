@@ -148,63 +148,107 @@
                                                         </div>
                                                     </div>
                                                 @elseif (Auth::user()->hasRole('Administrator'))
-                                                    @if (!$booking->uploadKopSurat)
-                                                        <div class="btn-group dropend">
-                                                            <button type="button"
-                                                                class="btn btn-secondary btn-round dropdown-toggle"
-                                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                                Status
-                                                            </button>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li>
-                                                                    <button type="button" class="dropdown-item"
+                                                    @if ($booking->transaksi)
+                                                        <a href="{{ route('transaksi') }}"
+                                                            class="btn btn-sm btn-primary">Transaksi</a>
+                                                    @else
+                                                        @if (!$booking->uploadKopSurat)
+                                                            @if ($booking->event->name == 'Pernikahan' && $booking->status == 'setujui')
+                                                                @if (!$booking->buktiTransaksi)
+                                                                    <p><span class="badge badge-warning">Menunggu Upload
+                                                                            Bukti</span></p>
+                                                                @else
+                                                                    <button type="button" class="btn btn-primary"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#dpModal{{ $booking->id }}">
-                                                                        Setujui
+                                                                        Input DP
                                                                     </button>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="dropdown-divider"></div>
-                                                                </li>
-                                                                <li>
-                                                                    <form
-                                                                        action="{{ route('dataBooking.status', $booking->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="status" value="tolak">
-                                                                        <button type="submit"
-                                                                            class="dropdown-item">Tolak</button>
-                                                                    </form>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="dropdown-divider"></div>
-                                                                </li>
-                                                                <li>
-                                                                    <form
-                                                                        action="{{ route('dataBooking.status', $booking->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <input type="hidden" name="status" value="menunggu">
-                                                                        <button type="submit"
-                                                                            class="dropdown-item">Menunggu</button>
-                                                                    </form>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    @elseif ($booking->uploadKopSurat && $booking->status == 'menunggu')
-                                                        <span class="badge badge-warning">Menunggu Persetujuan
-                                                            Perlengkapan</span>
-                                                    @elseif ($booking->uploadKopSurat && !$booking->buktiTransaksi)
-                                                        <span class="badge badge-warning">Menunggu Upload Bukti</span>
-                                                    @elseif ($booking->uploadKopSurat && $booking->status == 'setujui')
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#dpModal{{ $booking->id }}">
-                                                            Setujui
-                                                        </button>
-                                                    @else
-                                                        <span class="badge badge-danger">Perlengkapan Tidak Setuju</span>
+                                                                @endif
+                                                            @else
+                                                                <div class="btn-group dropend">
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary btn-round dropdown-toggle"
+                                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                        Status
+                                                                    </button>
+                                                                    {{-- @if ($booking->event->name == 'Pernikahan' && $booking->status == 'setujui')
+                                                                @if (!$booking->buktiTransaksi)
+                                                                    <ul class="dropdown-menu" role="menu">
+                                                                        <li>
+                                                                            <p><span class="badge badge-warning">Menunggu
+                                                                                    Bukti
+                                                                                    Transaksi</span></p>
+                                                                        </li>
+                                                                    @else
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#dpModal{{ $booking->id }}">
+                                                                                    Input DP
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+                                                                @endif
+                                                            @else --}}
+                                                                    <ul class="dropdown-menu" role="menu">
+                                                                        <li>
+                                                                            <form
+                                                                                action="{{ route('dataBooking.status', $booking->id) }}"
+                                                                                method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="status"
+                                                                                    value="setujui">
+                                                                                <button type="submit"
+                                                                                    class="dropdown-item">Setujui</button>
+                                                                            </form>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown-divider"></div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <form
+                                                                                action="{{ route('dataBooking.status', $booking->id) }}"
+                                                                                method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="status"
+                                                                                    value="tolak">
+                                                                                <button type="submit"
+                                                                                    class="dropdown-item">Tolak</button>
+                                                                            </form>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown-divider"></div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <form
+                                                                                action="{{ route('dataBooking.status', $booking->id) }}"
+                                                                                method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="status"
+                                                                                    value="menunggu">
+                                                                                <button type="submit"
+                                                                                    class="dropdown-item">Menunggu</button>
+                                                                            </form>
+                                                                        </li>
+                                                                    </ul>
+                                                                    {{-- @endif --}}
+                                                                </div>
+                                                            @endif
+                                                        @elseif ($booking->uploadKopSurat && $booking->status == 'menunggu')
+                                                            <span class="badge badge-warning">Menunggu Persetujuan
+                                                                Perlengkapan</span>
+                                                        @elseif ($booking->uploadKopSurat && $booking->status == 'setujui')
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#dpModal{{ $booking->id }}">
+                                                                Input DP
+                                                            </button>
+                                                        @else
+                                                            <span class="badge badge-danger">Perlengkapan Tidak Setuju</span>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </td>

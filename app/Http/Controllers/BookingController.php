@@ -52,8 +52,6 @@ class BookingController extends Controller
 
         if (in_array($eventName, ['Seminar', 'Perpisahan Sekolah', 'Tahfiz Quran'])) {
             $rules['upload_file'] = 'required|file|mimes:docx,pdf|max:2048';
-        } else {
-            $rules['buktiTransaksi'] = 'required|file|mimes:jpg,png,jpeg|max:2048';
         }
 
         $messages = [
@@ -69,7 +67,6 @@ class BookingController extends Controller
             'event_id' => 'event',
             'ruangan_id' => 'ruangan',
             'tanggal_booking' => 'tanggal booking',
-            'buktiTransaksi' => 'bukti transaksi',
             'upload_file' => 'file kop surat',
             'jadwal_start_time' => 'jam mulai',
             'jadwal_end_time' => 'jam selesai',
@@ -97,13 +94,6 @@ class BookingController extends Controller
             );
         }
 
-        $imageName = null;
-        if ($request->hasFile('buktiTransaksi')) {
-            $image = $request->file('buktiTransaksi');
-            $imageName = date('dmY') . time() . '_' . $image->getClientOriginalName();
-            $imageName = $image->storeAs('upload/bukti', $imageName, 'public');
-        }
-
         $fileName = null;
         if ($request->hasFile('upload_file')) {
             $file = $request->file('upload_file');
@@ -115,7 +105,6 @@ class BookingController extends Controller
             'user_id' => $request->user_id,
             'event_id' => $request->event_id,
             'ruangan_id' => $request->ruangan_id,
-            'buktiTransaksi' => $imageName,
             'uploadKopSurat' => $fileName,
             'tanggal_booking' => $request->tanggal_booking,
             'jadwal_start_time' => $request->jadwal_start_time,
@@ -129,15 +118,9 @@ class BookingController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $userRole = auth()->user()->roles->pluck('name')->first();
-
         $rules = [
             'status' => 'required|in:setujui,tolak,menunggu',
         ];
-
-        if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
-            $rules['dp'] = 'required|numeric';
-        }
 
         $request->validate($rules);
 
@@ -145,24 +128,18 @@ class BookingController extends Controller
 
         if (in_array($booking->event->name, ['Tahfiz Quran', 'Seminar', 'Perpisahan Sekolah'])) {
             if ($booking->uploadKopSurat) {
-                if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
-                    $this->createTransaksi($booking, $request->input('dp'));
-                }
                 $booking->status = $request->input('status');
                 $booking->save();
 
-                return $this->redirectAfterUpdate($userRole);
+                return redirect()->route('admin.dataBooking')->with('success', 'Status berhasil diperbarui.');
             } else {
                 return redirect()->back()->with('error', 'Kop surat wajib diunggah untuk jenis acara ini!');
             }
         } else {
-            if ($userRole === 'Administrator' && $request->input('status') === 'setujui') {
-                $this->createTransaksi($booking, $request->input('dp'));
-            }
             $booking->status = $request->input('status');
             $booking->save();
 
-            return $this->redirectAfterUpdate($userRole);
+            return redirect()->route('admin.dataBooking')->with('success', 'Status berhasil diperbarui.');
         }
     }
 
@@ -204,7 +181,7 @@ class BookingController extends Controller
 
         $booking->update(['buktiTransaksi' => $path]);
 
-        return redirect()->back()->with('success', 'Berkas berhasil diunggah.');
+        return redirect()->back()->with('success', 'Bukti transaksi berhasil diunggah.');
     }
 
     public function indexBookingCostumer()

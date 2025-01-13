@@ -10,7 +10,8 @@
                 <form action="{{ route('upload.bukti', $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="buktiTransaksi{{ $item->id }}" class="form-label">Upload Bukti Transaksi</label>
+                        <label for="buktiTransaksi{{ $item->id }}" class="form-label">Upload Bukti Transaksi
+                            DP(50%)</label>
                         <input type="file" name="buktiTransaksi" id="buktiTransaksi{{ $item->id }}"
                             class="form-control" required>
                         <div class="md-12">
