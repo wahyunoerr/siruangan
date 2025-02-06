@@ -21,7 +21,7 @@ class Booking extends Model
         'status',
         'jadwal_start_time',
         'jadwal_end_time',
-        'jadwal_day'
+        'keterangan'
     ];
 
     /**

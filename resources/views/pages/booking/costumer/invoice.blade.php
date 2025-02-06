@@ -129,8 +129,7 @@
                 </tr>
                 <tr>
                     <th>Jadwal</th>
-                    <td>{{ $transaksi->booking->jadwal_day }} - {{ $transaksi->booking->jadwal_start_time }} s.d
-                        {{ $transaksi->booking->jadwal_end_time }}</td>
+                    <td>{{ $transaksi->booking->jadwal_start_time }} s.d {{ $transaksi->booking->jadwal_end_time }}</td>
                 </tr>
                 <tr>
                     <th>Tanggal Booking</th>

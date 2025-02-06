@@ -64,20 +64,6 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="jadwal_day" class="form-label">Hari</label>
-                        <select class="form-select" name="jadwal_day" id="jadwal_day" required>
-                            <option value="" disabled selected>-- Pilih Hari --</option>
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                            <option value="Sabtu">Sabtu</option>
-                            <option value="Minggu">Minggu</option>
-                        </select>
-                    </div>
-
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="jadwal_start_time" class="form-label">Jam Mulai</label>
@@ -98,7 +84,7 @@
 
                     <div class="mb-3">
                         <div id="fileUploadContainer" style="display: none;">
-                            <label for="upload_file" class="form-label">Upload Kop Surat <span
+                            <label for="upload_file" class="form-label">Surat izin penyewaan <span
                                     class="badge bg-info">.pdf
                                     .doxc</span>
                             </label>

@@ -22,7 +22,8 @@
                                     <th>Tanggal</th>
                                     <th>Status</th>
                                     <th>Bukti Transaksi</th>
-                                    <th>Kop Surat</th>
+                                    <th>Surat Izin Penyewaan</th>
+                                    <th>Keterangan</th>
                                     <th width="50%">Action</th>
                                 </tr>
                             </thead>
@@ -30,9 +31,7 @@
                                 @foreach ($booking as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->jadwal_day }}, {{ $item->jadwal_start_time }} s.d
-                                            {{ $item->jadwal_end_time }}
-                                        </td>
+                                        <td>{{ $item->jadwal_start_time }} s.d {{ $item->jadwal_end_time }}</td>
                                         <td>{{ $item->event->name }}</td>
                                         <td>{{ $item->ruangan->nama_ruangan }}</td>
                                         <td>{{ date('d-m-Y', strtotime($item->tanggal_booking)) }}</td>
@@ -42,7 +41,13 @@
                                             @elseif ($item->status == 'tolak')
                                                 <span class="badge badge-danger">Ditolak</span>
                                             @elseif ($item->status == 'setujui')
-                                                <span class="badge badge-success">Disetujui</span>
+                                                @if (!$item->buktiTransaksi)
+                                                    <span class="badge badge-warning">
+                                                        <div id="countdown-{{ $item->id }}"></div>
+                                                    </span>
+                                                @else
+                                                    <span class="badge badge-success">Disetujui</span>
+                                                @endif
                                             @endif
                                         </td>
                                         @if ($item->buktiTransaksi)
@@ -67,6 +72,7 @@
                                                 <p>Tidak ada</p>
                                             </td>
                                         @endif
+                                        <td>{{ $item->keterangan }}</td>
                                         <td>
                                             @if ($item->status == 'setujui' && !$item->buktiTransaksi)
                                                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
@@ -93,7 +99,8 @@
                                     <th>Tanggal</th>
                                     <th>Status</th>
                                     <th>Bukti Transaksi</th>
-                                    <th>Kop Surat</th>
+                                    <th>Surat Izin Penyewaan</th>
+                                    <th>Keterangan</th>
                                     <th width="50%">Action</th>
                                 </tr>
                             </tfoot>
@@ -103,4 +110,26 @@
             </div>
         </div>
     </div>
+    <script>
+        @foreach ($booking as $item)
+            @if ($item->status == 'setujui' && !$item->buktiTransaksi)
+                var countDownDate{{ $item->id }} = new Date(
+                    "{{ \Carbon\Carbon::parse($item->updated_at)->addDay()->format('M d, Y H:i:s') }}").getTime();
+                var x{{ $item->id }} = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countDownDate{{ $item->id }} - now;
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    document.getElementById("countdown-{{ $item->id }}").innerHTML =
+                        "Lakukan pembayaran sebelum: " + hours + "h " + minutes + "m " +
+                        seconds + "s ";
+                    if (distance < 0) {
+                        clearInterval(x{{ $item->id }});
+                        document.getElementById("countdown-{{ $item->id }}").innerHTML = "Waktu anda habis";
+                    }
+                }, 1000);
+            @endif
+        @endforeach
+    </script>
 @endsection

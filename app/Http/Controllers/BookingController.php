@@ -9,6 +9,7 @@ use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -47,7 +48,6 @@ class BookingController extends Controller
             'tanggal_booking' => 'required',
             'jadwal_start_time' => 'required|date_format:H:i',
             'jadwal_end_time' => 'required|date_format:H:i',
-            'jadwal_day' => 'required',
         ];
 
         if (in_array($eventName, ['Seminar', 'Perpisahan Sekolah', 'Tahfiz Quran'])) {
@@ -70,7 +70,6 @@ class BookingController extends Controller
             'upload_file' => 'file kop surat',
             'jadwal_start_time' => 'jam mulai',
             'jadwal_end_time' => 'jam selesai',
-            'jadwal_day' => 'hari',
         ];
 
         $request->validate($rules, $messages, $attributes);
@@ -109,7 +108,6 @@ class BookingController extends Controller
             'tanggal_booking' => $request->tanggal_booking,
             'jadwal_start_time' => $request->jadwal_start_time,
             'jadwal_end_time' => $request->jadwal_end_time,
-            'jadwal_day' => $request->jadwal_day,
             'status' => 'menunggu',
         ]);
 
@@ -122,6 +120,10 @@ class BookingController extends Controller
             'status' => 'required|in:setujui,tolak,menunggu',
         ];
 
+        if ($request->input('status') == 'tolak') {
+            $rules['keterangan'] = 'required|string|max:255';
+        }
+
         $request->validate($rules);
 
         $booking = Booking::with(['event'])->findOrFail($id);
@@ -129,6 +131,14 @@ class BookingController extends Controller
         if (in_array($booking->event->name, ['Tahfiz Quran', 'Seminar', 'Perpisahan Sekolah'])) {
             if ($booking->uploadKopSurat) {
                 $booking->status = $request->input('status');
+                $booking->updated_at = now();
+                if ($request->input('status') == 'setujui') {
+                    $booking->keterangan = 'Disetujui';
+                } elseif ($request->input('status') == 'menunggu') {
+                    $booking->keterangan = 'Menunggu Konfirmasi';
+                } elseif ($request->input('status') == 'tolak') {
+                    $booking->keterangan = $request->input('keterangan');
+                }
                 $booking->save();
 
                 return redirect()->route('admin.dataBooking')->with('success', 'Status berhasil diperbarui.');
@@ -137,6 +147,12 @@ class BookingController extends Controller
             }
         } else {
             $booking->status = $request->input('status');
+            $booking->updated_at = now();
+            if ($request->input('status') == 'setujui') {
+                $booking->keterangan = 'Disetujui';
+            } elseif ($request->input('status') == 'tolak') {
+                $booking->keterangan = $request->input('keterangan');
+            }
             $booking->save();
 
             return redirect()->route('admin.dataBooking')->with('success', 'Status berhasil diperbarui.');
@@ -189,6 +205,15 @@ class BookingController extends Controller
         $booking = Booking::with(['event', 'ruangan'])
             ->where('user_id', auth()->id())
             ->get();
+
+        foreach ($booking as $item) {
+            if ($item->status == 'setujui' && now()->diffInHours($item->updated_at) > 24 && !$item->buktiTransaksi) {
+                $item->update([
+                    'status' => 'tolak',
+                    'keterangan' => 'Waktu anda habis'
+                ]);
+            }
+        }
 
         return view('pages.booking.costumer.index', compact('booking'));
     }
