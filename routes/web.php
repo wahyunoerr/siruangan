@@ -6,6 +6,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -70,8 +71,9 @@ Route::middleware(['auth', 'role:Administrator'])->group(function () {
         Route::delete('/destroy/{id}', 'destroy')->name('landing.destroy');
         Route::get('/manage', 'manage')->name('landing.manage');
     });
-});
 
+    Route::resource('suppliers', SupplierController::class);
+});
 
 Route::middleware(['auth', 'role:Administrator|Perlengkapan'])->group(function () {
     Route::controller(DashboardController::class)->group(function () {
